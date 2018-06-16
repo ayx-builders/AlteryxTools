@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>Regex Extract</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("Extract regex matches")</legend>
+      <div class=''>
+        <label>XMSG("Select a text field to extract:")</label>
+        <ayx data-ui-props="{type: 'DropDown'}" data-item-props="{dataName: 'DataField', dataType: 'FieldSelector', fieldType: 'String', anchorIndex:'0', connectionIndex:'0'}"></ayx>
+        <label>XMSG("Enter a regex pattern:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'Pattern'}"></ayx>
+        <label>XMSG("Provide a name for the field containing extracted regex matches:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'ExtractedMatchField'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+
+  <style>
+    .blueTitle {
+      background-color: #e5e5e5;
+    }
+  </style>
+</body>
+</html>

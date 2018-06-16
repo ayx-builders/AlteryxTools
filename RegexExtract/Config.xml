@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="RegexExtract.py" SDKVersion="10.1" />
+  <GuiSettings Html="RegexExtractGui.html" Icon="RegexExtractIcon.png" Help="" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Matches" AllowMultiple="False" Optional="False" Type="Connection" Label="M"/>
+      <Connection Name="NoMatches" AllowMultiple="False" Optional="False" Type="Connection" Label="U"/>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>Regex Extract</Name>
+      <Description>Extracts text matching a provided pattern.  If multiple matches are found, multiple records are generated with the matched values.</Description>
+      <CategoryName>Parse</CategoryName>
+      <SearchTags>python, regex</SearchTags>
+      <ToolVersion>1.0</ToolVersion>
+      <Author>Thomas Larsen</Author>
+      <Company>ABB Inc.</Company>
+      <Copyright>2018</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
