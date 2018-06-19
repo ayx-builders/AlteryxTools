@@ -34,7 +34,7 @@ class AyxPlugin:
         if self.MatchFieldName is None:
             self.display_error_msg('Field name cannot be empty.')
         elif len(self.MatchFieldName) > 255:
-            self.display_error_msg('Field name cannot be greater then 255 characters.')
+            self.display_error_msg('Field name cannot be greater than 255 characters.')
 
         # Getting the output anchor from Config.xml by the output connection name
         self.MatchOutput = self.output_anchor_mgr.get_output_anchor('Matches')
