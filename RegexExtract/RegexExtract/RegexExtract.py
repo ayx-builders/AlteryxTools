@@ -162,6 +162,7 @@ class IncomingInterface:
 
         # Inform the outgoing connections of the tool's progress.
         self.parent.MatchOutput.update_progress(d_percent)
+        self.parent.NoMatchOutput.update_progress(d_percent)
 
     def ii_close(self):
         """
