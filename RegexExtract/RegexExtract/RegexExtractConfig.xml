@@ -16,9 +16,9 @@
       <Description>Extracts text matching a provided pattern.  If multiple matches are found, multiple records are generated with the matched values.</Description>
       <CategoryName>Parse</CategoryName>
       <SearchTags>python, regex</SearchTags>
-      <ToolVersion>1.0</ToolVersion>
+      <ToolVersion>1.01</ToolVersion>
       <Author>Thomas Larsen</Author>
-      <Company>ABB Inc.</Company>
+      <Company></Company>
       <Copyright>2018</Copyright>
     </MetaInfo>
   </Properties>

@@ -60,18 +60,7 @@ class AyxPlugin:
 
 
 class IncomingInterface:
-    """
-    This class is returned by pi_add_incoming_connection, and it implements the incoming interface methods, to be\
-    utilized by the Alteryx engine to communicate with a plugin when processing an incoming connection.
-    Prefixed with "ii", the Alteryx engine will expect the below four interface methods to be defined.
-    """
-
     def __init__(self, parent: AyxPlugin):
-        """
-        Constructor for IncomingInterface.
-        :param parent: AyxPlugin
-        """
-
         # Default properties
         self.parent: AyxPlugin = parent
 
@@ -82,17 +71,12 @@ class IncomingInterface:
         self.DataField: Sdk.Field = None
 
     def ii_init(self, record_info_in: Sdk.RecordInfo) -> bool:
-        """
-        Handles appending the new field to the incoming data.
-        Called to report changes of the incoming connection's record metadata to the Alteryx engine.
-        :param record_info_in: A RecordInfo object for the incoming connection's fields.
-        :return: False if there's an error with the field name, otherwise True.
-        """
-
+        # Make sure the user provided a field to parse
         if self.parent.DataFieldName is None:
             self.parent.display_error_msg('Select a field')
             return False
 
+        # Get information about the field we will be parsing
         self.DataField = record_info_in.get_field_by_name(self.parent.DataFieldName)
         match_field_type: Sdk.FieldType = self.DataField.type
         match_field_size: int = self.DataField.size
@@ -103,7 +87,7 @@ class IncomingInterface:
         # Adds field to record with specified name and output type.
         self.MatchField = record_info_out.add_field(self.parent.MatchFieldName, match_field_type, match_field_size)
 
-        # Lets the downstream tools know what the outgoing record metadata will look like, based on record_info_out.
+        # Lets the downstream tools know what the outgoing record metadata will look like
         self.parent.MatchOutput.init(record_info_out)
         self.parent.NoMatchOutput.init(record_info_in)
 
@@ -124,21 +108,15 @@ class IncomingInterface:
         return True
 
     def ii_push_record(self, in_record: Sdk.RecordRef) -> bool:
-        """
-        Responsible for pushing records out.
-        Called when an input record is being sent to the plugin.
-        :param in_record: The data for the incoming record.
-        :return: False if there's a downstream error, or if there's an error with the field name, otherwise True.
-        """
-
         # Copy the data from the incoming record into the outgoing record.
         self.record_creator.reset()
         self.record_copier.copy(self.record_creator, in_record)
 
-        # Sets the value of this field in the specified record_creator from an int64 value.
+        # Get the text to parse and set the matches counter
         data: str = self.DataField.get_as_string(in_record)
         matches: int = 0
 
+        # Iterate through the matches and output to the Match output anchor
         for match in re.finditer("(%s)" % self.parent.Pattern, data):
             matched_str: str = match.group(1)
             self.MatchField.set_from_string(self.record_creator, matched_str)
@@ -146,17 +124,13 @@ class IncomingInterface:
             self.parent.MatchOutput.push_record(out_record)
             matches = matches + 1
 
+        # If no matches were found, output to the No Matches output anchor
         if matches == 0:
             self.parent.NoMatchOutput.push_record(in_record)
 
         return True
 
     def ii_update_progress(self, d_percent: float):
-        """
-        Called by the upstream tool to report what percentage of records have been pushed.
-        :param d_percent: Value between 0.0 and 1.0.
-        """
-
         # Inform the Alteryx engine of the tool's progress.
         self.parent.alteryx_engine.output_tool_progress(self.parent.n_tool_id, d_percent)
 
@@ -165,10 +139,6 @@ class IncomingInterface:
         self.parent.NoMatchOutput.update_progress(d_percent)
 
     def ii_close(self):
-        """
-        Called when the incoming connection has finished passing all of its records.
-        """
-
         # Close outgoing connections.
         self.parent.MatchOutput.close()
         self.parent.NoMatchOutput.close()
