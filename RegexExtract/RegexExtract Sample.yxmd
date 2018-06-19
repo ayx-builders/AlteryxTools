@@ -3,11 +3,11 @@
   <Nodes>
     <Node ToolID="2">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="78" y="90" />
+        <Position x="54" y="90" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <NumRows value="4" />
+          <NumRows value="5" />
           <Fields>
             <Field name="Key" />
             <Field name="Data" />
@@ -29,6 +29,10 @@
               <c>4</c>
               <c>I like my A766</c>
             </r>
+            <r>
+              <c>5</c>
+              <c />
+            </r>
           </Data>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -41,11 +45,11 @@
     </Node>
     <Node ToolID="3">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="270" y="54" />
+        <Position x="246" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_6728_93404f01c24e4da499f69a60f08480e4_\Engine_23136_3c35f7eaefcb47a8bccc6b50e82056e2_.yxdb</TempFile>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12920_426899fe3a994d469fa981b47bf2dda6_\Engine_12380_819e05200813420e8873f97b628f22c5_.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -69,11 +73,11 @@
     </Node>
     <Node ToolID="4">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="270" y="126" />
+        <Position x="246" y="126" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_6728_93404f01c24e4da499f69a60f08480e4_\Engine_23136_29a395656e0a4740880a2067ed4be9bc_.yxdb</TempFile>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12920_426899fe3a994d469fa981b47bf2dda6_\Engine_12380_85375b5ab42147dea7a374619048c1d8_.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -97,7 +101,7 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="RegexExtract">
-        <Position x="174" y="90" />
+        <Position x="150" y="90" />
       </GuiSettings>
       <Properties>
         <Configuration>

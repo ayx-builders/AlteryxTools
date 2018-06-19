@@ -116,13 +116,15 @@ class IncomingInterface:
         data: str = self.DataField.get_as_string(in_record)
         matches: int = 0
 
-        # Iterate through the matches and output to the Match output anchor
-        for match in re.finditer("(%s)" % self.parent.Pattern, data):
-            matched_str: str = match.group(1)
-            self.MatchField.set_from_string(self.record_creator, matched_str)
-            out_record = self.record_creator.finalize_record()
-            self.parent.MatchOutput.push_record(out_record)
-            matches = matches + 1
+        # Check if value is null
+        if data is not None:
+            # Iterate through the matches and output to the Match output anchor
+            for match in re.finditer("(%s)" % self.parent.Pattern, data):
+                matched_str: str = match.group(1)
+                self.MatchField.set_from_string(self.record_creator, matched_str)
+                out_record = self.record_creator.finalize_record()
+                self.parent.MatchOutput.push_record(out_record)
+                matches = matches + 1
 
         # If no matches were found, output to the No Matches output anchor
         if matches == 0:
