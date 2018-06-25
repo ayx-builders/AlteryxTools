@@ -33,7 +33,7 @@ class AyxPlugin:
                     isPattern = True
                 self.SortList.append(SortItem(item, isPattern))
 
-        self.Alphabetical = bool(Et.fromstring(str_xml).find('Alphabetical').text) if 'Alphabetical' in str_xml else False
+        self.Alphabetical = Et.fromstring(str_xml).find('Alphabetical').text == 'True' if 'Alphabetical' in str_xml else False
 
         # Getting the output anchor from Config.xml by the output connection name
         self.output = self.output_anchor_mgr.get_output_anchor('Output')
