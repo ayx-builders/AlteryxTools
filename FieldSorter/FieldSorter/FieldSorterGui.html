@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>Regex Extract</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("Field Sorter")</legend>
+      <div class=''>
+        <label>XMSG("Sorted fields.  If the field is a pattern, append with '-P' (e.g. 'Field\d+-P'")</label>
+        <ayx data-ui-props="{type: 'TextArea', rows: 20}" data-item-props="{dataName: 'SortList', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("Sort unsorted fields and pattern-matched fields alphabetically?")</label>
+        <ayx data-ui-props="{type: 'CheckBox'}" data-item-props="{dataName: 'Alphabetical', dataType: 'SimpleBool'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+
+  <style>
+    .blueTitle {
+      background-color: #e5e5e5;
+    }
+  </style>
+  <script type="text/javascript">
+
+  </script>
+</body>
+</html>

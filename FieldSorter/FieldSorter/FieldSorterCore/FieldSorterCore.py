@@ -3,7 +3,7 @@ from collections import namedtuple
 import re
 
 
-Translation = namedtuple('Translation', 'index_from index_to')
+Translation = namedtuple('Translation', 'index_from index_to name')
 
 
 class SortItem:
@@ -54,12 +54,12 @@ def sort_fields(source: List[str], change_to: List[SortItem], alphabetical: bool
             is_matched = matches if change_to_item.isPattern else equals
 
             if is_matched(item[0], change_to_item.field):
-                translations.append(Translation(item[1], len(translations)))
+                translations.append(Translation(item[1], len(translations), item[0]))
                 garbage.append(item)
 
         take_out_garbage(indexed_source, garbage)
 
     for item in indexed_source:
-        translations.append(Translation(item[1], len(translations)))
+        translations.append(Translation(item[1], len(translations), item[0]))
 
     return translations
