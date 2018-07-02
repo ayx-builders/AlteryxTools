@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import 'react-beautiful-dnd';
 import './App.css';
-import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class App extends Component {
 
@@ -42,20 +42,29 @@ class App extends Component {
 }
 
 class SortRow extends Component {
+    constructor(props) {
+        super(props);
+        this.isPatternChanged = this.isPatternChanged.bind(this);
+        this.textChanged = this.textChanged.bind(this);
+    }
+
+    isPatternChanged() {
+        this.props.sortField.isPattern = !this.props.sortField.isPattern;
+        this.forceUpdate();
+    }
+
+    textChanged(event) {
+        this.props.sortField.text = event.target.value;
+        this.forceUpdate();
+    }
 
     render(){
-        return <TableRow>
+        return <TableRow style={{height: 20}}>
             <TableCell component="th" scope="row">
-                <form>
-                <input className="SortFieldText" type="text" value={this.props.sortField.text} onChange={(event)=>{
-                    this.props.sortField.text = event.target.value;
-                    this.forceUpdate();
-                }} />
-                    <input type="checkbox" checked={this.props.sortField.isPattern} onChange={()=>{
-                        this.props.sortField.isPattern = !this.props.sortField.isPattern;
-                        this.forceUpdate();
-                    }} />
-                </form>
+                <TextField fullWidth={true} type="text" value={this.props.sortField.text} onChange={this.textChanged} />
+            </TableCell>
+            <TableCell>
+                <Checkbox checked={this.props.sortField.isPattern} onChange={this.isPatternChanged} />
             </TableCell>
         </TableRow>;
     }
