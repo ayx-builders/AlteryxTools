@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <AlteryxJavaScriptPlugin>
   <EngineSettings EngineDll="Python" EngineDllEntryPoint="FieldSorter.py" SDKVersion="10.1" />
-  <GuiSettings Html="FieldSorterGui.html" Icon="FieldSorterIcon.png" Help="" SDKVersion="10.1">
+  <GuiSettings Html="index.html" Icon="FieldSorterIcon.png" Help="" SDKVersion="10.1">
     <InputConnections>
       <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
     </InputConnections>
