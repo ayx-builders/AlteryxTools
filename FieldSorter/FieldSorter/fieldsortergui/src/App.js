@@ -35,7 +35,29 @@ function getUnmatchedFields() {
 }
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.addUnsorted = this.addUnsorted.bind(this);
+    }
+
     unmatchedFields = [];
+
+    addUnsorted() {
+        let unsorted = document.getElementById("Unsorted");
+
+        for (let i = 0; i < unsorted.options.length; i++) {
+            let option = unsorted.options[i];
+            if (option.selected) {
+                window.FieldSorter.sortedFields.push({
+                    text: option.text,
+                    isPattern: false
+                });
+            }
+        }
+
+        this.unmatchedFields = getUnmatchedFields();
+        this.forceUpdate();
+    };
 
     render() {
         this.unmatchedFields = getUnmatchedFields();
@@ -46,14 +68,14 @@ class App extends Component {
             <div className="App">
                 <div>Unsorted fields</div>
                 <div>
-                    <select className="UnmatchedFields" multiple="multiple" size={displaySize}>
+                    <select id="Unsorted" className="UnmatchedFields" multiple="multiple" size={displaySize}>
                         {this.unmatchedFields.map(item => {
                             return <option key={item.strName}>{item.strName}</option>;
                         })}
                     </select>
                 </div>
                 <div>
-                    <button className="AddButton" type="button" onClick={()=>console.log('Click!')}>Add</button>
+                    <button className="AddButton" type="button" onClick={this.addUnsorted} >Add</button>
                 </div>
                 <div className="SortedFields">
                     <Table>
@@ -88,11 +110,14 @@ class SortRow extends Component {
 
     render(){
         return <TableRow style={{height: 20}}>
-            <TableCell component="th" scope="row">
-                <TextField fullWidth={true} type="text" value={this.props.sortField.text} onChange={this.textChanged} />
+            <TableCell className="SortFieldCheckbox" component="th" scope="row">
+                <Checkbox className="SortFieldCheckbox" />
             </TableCell>
-            <TableCell>
-                <Checkbox checked={this.props.sortField.isPattern} onChange={this.isPatternChanged} />
+            <TableCell className="SortFieldText">
+                <TextField fullWidth={true} type="text" value={this.props.sortField.text} onChange={this.textChanged} inputProps={{disableUnderline: true}} />
+            </TableCell>
+            <TableCell className="SortFieldCheckbox">
+                <Checkbox className="SortFieldCheckbox" checked={this.props.sortField.isPattern} onChange={this.isPatternChanged} />
             </TableCell>
         </TableRow>;
     }

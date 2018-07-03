@@ -17,5 +17,8 @@
 }
 
 .SortFieldText {
-    width: calc(100% - 30px)
+}
+
+.SortFieldCheckbox {
+    width: 10px;
 }
