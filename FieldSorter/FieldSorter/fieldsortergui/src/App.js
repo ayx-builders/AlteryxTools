@@ -8,18 +8,46 @@ import TableRow from '@material-ui/core/TableRow';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 
-class App extends Component {
 
+function getUnmatchedFields() {
+    let unmatchedFields = [];
+    let incomingFields = window.FieldSorter.incomingFields;
+    let sortedFields = window.FieldSorter.sortedFields;
+
+    for (let iIn = 0; iIn < incomingFields.length; iIn++) {
+        let isFound = false;
+
+        for (let iSorted = 0; iSorted < sortedFields.length; iSorted++) {
+            let matcher = sortedFields[iSorted];
+            let searchFor = matcher.isPattern ? new RegExp("^" + matcher.text + "$", "i") : matcher.text;
+
+            if (incomingFields[iIn].strName.search(searchFor) >= 0) {
+                isFound = true;
+                break;
+            }
+        }
+
+        if (!isFound) {
+            unmatchedFields.push(incomingFields[iIn]);
+        }
+    }
+    return unmatchedFields;
+}
+
+class App extends Component {
+    unmatchedFields = [];
 
     render() {
-        var displaySize = Math.min(20,window.FieldSorter.incomingFields.length);
+        this.unmatchedFields = getUnmatchedFields();
+
+        let displaySize = Math.min(20,window.FieldSorter.incomingFields.length);
 
         return (
             <div className="App">
                 <div>Unsorted fields</div>
                 <div>
                     <select className="UnmatchedFields" multiple="multiple" size={displaySize}>
-                        {window.FieldSorter.incomingFields.map(item => {
+                        {this.unmatchedFields.map(item => {
                             return <option key={item.strName}>{item.strName}</option>;
                         })}
                     </select>
