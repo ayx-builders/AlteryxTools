@@ -7,26 +7,45 @@ import App from './App';
 var render = ()=> ReactDOM.render(<App />, document.getElementById('root'));
 
 if ("Alteryx" in window) {
-    var gui = window.Alteryx.Gui;
+    if (!"Gui" in window.Alteryx) window.Alteryx.Gui = {};
+    let gui = window.Alteryx.Gui;
+
 
     gui.AfterLoad = function(manager, AlteryxDataItems) {
-        var config = manager.toolInfo.Configuration == null ? [] : manager.toolInfo.Configuration.SortedFields;
+        let sortedFields = [];
+        let config = manager.toolInfo.Configuration.Configuration == null ? {} : manager.toolInfo.Configuration.Configuration;
+
+        for (let prop in config) {
+            if (config[prop].hasOwnProperty('text') && config[prop].hasOwnProperty('isPattern')) {
+                sortedFields.push({
+                    text: config[prop].text,
+                    isPattern: config[prop].isPattern === 'true',
+                });
+            }
+        }
 
         window.FieldSorter = {
             incomingFields: manager.getIncomingFields(),
-            sortedFields: config,
+            sortedFields: sortedFields,
         };
 
         render();
     };
 
     gui.GetConfiguration = function() {
+        let config = {};
+        for (let i = 0; i < window.FieldSorter.sortedFields.length; i++) {
+            config["Field" + i] = window.FieldSorter.sortedFields[i];
+        }
+
+        console.log(config);
+
         window.Alteryx.JsEvent(JSON.stringify({
             Event: 'GetConfiguration',
             Configuration: {
-                SortedFields: window.FieldSorter.sortedFields
+                Configuration: config
             },
-            Annotation: ''
+            Annotation: '',
         }))
     };
 } else {
