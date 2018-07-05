@@ -43,7 +43,8 @@ if ("Alteryx" in window) {
         ],
         sortedFields: [
             {text: "Id", isPattern: false},
-            {text: "Group\\d", isPattern: true}
+            {text: "Group\\d", isPattern: true},
+            {text: "SuperDuperDuper DuperLongFieldName", isPattern: false},
         ]
     };
     render();

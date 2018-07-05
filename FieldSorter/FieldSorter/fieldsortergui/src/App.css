@@ -1,3 +1,7 @@
+body {
+    background-color: azure;
+}
+
 .AddButton {
     width: 100%;
     height: 25pt;
@@ -12,13 +16,47 @@
 }
 
 .SortedFields {
-    width: 100%;
+    background-color: white;
+    margin-left: 0;
+    margin-right: 0;
     margin-top: 30px;
+    padding: 4px;
+}
+
+.SortedField {
+    display: table;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.SortedField:hover {
+    filter: brightness(90%);
+}
+
+.SortFieldCell {
+    display: table-cell;
+    text-align: left;
+    vertical-align: middle;
+    align-items: center;
+}
+
+.GrabHandle {
+    cursor: move;
+    min-width: 20px;
+    max-width: 20px;
+}
+
+.IsPatternIndicator {
+    text-align: center;
+    font-size: 10px;
+    min-width: 30px;
 }
 
 .SortFieldText {
-}
-
-.SortFieldCheckbox {
-    width: 10px;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 1px;
 }

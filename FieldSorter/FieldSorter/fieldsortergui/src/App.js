@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import 'react-beautiful-dnd';
 import './App.css';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-
+import Paper from "@material-ui/core/es/Paper/Paper";
+import SvgIcon from '@material-ui/core/SvgIcon';
 
 function getUnmatchedFields() {
     let unmatchedFields = [];
@@ -78,13 +73,9 @@ class App extends Component {
                     <button className="AddButton" type="button" onClick={this.addUnsorted} >Add</button>
                 </div>
                 <div className="SortedFields">
-                    <Table>
-                        <TableBody>
-                            {window.FieldSorter.sortedFields.map((sortField, index) => {
-                            return <SortRow key={index} sortField={sortField} />
-                            })}
-                        </TableBody>
-                    </Table>
+                    {window.FieldSorter.sortedFields.map((sortField, index) => {
+                        return <SortRow key={index} sortField={sortField} />
+                    })}
                 </div>
             </div>
         );
@@ -109,17 +100,19 @@ class SortRow extends Component {
     }
 
     render(){
-        return <TableRow style={{height: 20}}>
-            <TableCell className="SortFieldCheckbox" component="th" scope="row">
-                <Checkbox className="SortFieldCheckbox" />
-            </TableCell>
-            <TableCell className="SortFieldText">
-                <TextField fullWidth={true} type="text" value={this.props.sortField.text} onChange={this.textChanged} inputProps={{disableUnderline: true}} />
-            </TableCell>
-            <TableCell className="SortFieldCheckbox">
-                <Checkbox className="SortFieldCheckbox" checked={this.props.sortField.isPattern} onChange={this.isPatternChanged} />
-            </TableCell>
-        </TableRow>;
+        return <Paper className="SortedField" elevation={0} onClick={()=>console.debug("Click!")}>
+            <DragHandle />
+            <div className='SortFieldCell IsPatternIndicator'>{this.props.sortField.isPattern ? '(.)*' : ''}</div>
+            <div className='SortFieldCell SortFieldText' >{this.props.sortField.text}</div>
+        </Paper>
+    }
+}
+
+class DragHandle extends Component {
+    render() {
+        return <SvgIcon className="SortFieldCell GrabHandle">
+            <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </SvgIcon>;
     }
 }
 
