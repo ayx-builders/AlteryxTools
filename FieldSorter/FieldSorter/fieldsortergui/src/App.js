@@ -3,6 +3,15 @@ import 'react-beautiful-dnd';
 import './App.css';
 import Paper from "@material-ui/core/es/Paper/Paper";
 import SvgIcon from '@material-ui/core/SvgIcon';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+
+    return result;
+}
 
 function getUnmatchedFields() {
     let unmatchedFields = [];
@@ -33,9 +42,25 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.addUnsorted = this.addUnsorted.bind(this);
+        this.onDragEnd = this.onDragEnd.bind(this);
     }
 
     unmatchedFields = [];
+
+    onDragEnd(result) {
+        // dropped outside the list
+        if (!result.destination) {
+            return;
+        }
+
+        window.FieldSorter.sortedFields = reorder(
+            window.FieldSorter.sortedFields,
+            result.source.index,
+            result.destination.index,
+        );
+
+        this.forceUpdate();
+    }
 
     addUnsorted() {
         let unsorted = document.getElementById("Unsorted");
@@ -72,11 +97,30 @@ class App extends Component {
                 <div>
                     <button className="AddButton" type="button" onClick={this.addUnsorted} >Add</button>
                 </div>
-                <div className="SortedFields">
-                    {window.FieldSorter.sortedFields.map((sortField, index) => {
-                        return <SortRow key={index} sortField={sortField} />
-                    })}
-                </div>
+                <DragDropContext onDragEnd={this.onDragEnd}>
+                    <Droppable droppableId="droppable">
+                        {(droppableProvided, droppableSnapshot) => (
+                            <div className='SortedFields'
+                                ref={droppableProvided.innerRef}
+                            >
+                                {window.FieldSorter.sortedFields.map((item, index) => (
+                                    <Draggable key={item.text} draggableId={item.text} index={index}>
+                                        {(draggableProvided, draggableSnapshot) => (
+                                            <div
+                                                ref={draggableProvided.innerRef}
+                                                {...draggableProvided.draggableProps}
+                                                {...draggableProvided.dragHandleProps}
+                                            >
+                                                <SortRow key={index} sortField={item} />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {droppableProvided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
             </div>
         );
     }
@@ -101,14 +145,14 @@ class SortRow extends Component {
 
     render(){
         return <Paper className="SortedField" elevation={0} onClick={()=>console.debug("Click!")}>
-            <DragHandle />
-            <div className='SortFieldCell IsPatternIndicator'>{this.props.sortField.isPattern ? '(.)*' : ''}</div>
-            <div className='SortFieldCell SortFieldText' >{this.props.sortField.text}</div>
-        </Paper>
+                <DragHandleIcon />
+                <div className='SortFieldCell IsPatternIndicator'>{this.props.sortField.isPattern ? '(.)*' : ''}</div>
+                <div className='SortFieldCell SortFieldText' >{this.props.sortField.text}</div>
+            </Paper>
     }
 }
 
-class DragHandle extends Component {
+class DragHandleIcon extends Component {
     render() {
         return <SvgIcon className="SortFieldCell GrabHandle">
             <path d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
