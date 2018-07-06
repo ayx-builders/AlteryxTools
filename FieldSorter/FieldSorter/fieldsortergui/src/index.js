@@ -7,7 +7,7 @@ import App from './App';
 var render = ()=> ReactDOM.render(<App />, document.getElementById('root'));
 
 if ("Alteryx" in window) {
-    if (!"Gui" in window.Alteryx) window.Alteryx.Gui = {};
+    if (!("Gui" in window.Alteryx)) window.Alteryx.Gui = {};
     let gui = window.Alteryx.Gui;
 
 
