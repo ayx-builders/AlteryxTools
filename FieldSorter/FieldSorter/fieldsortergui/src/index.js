@@ -20,6 +20,7 @@ if ("Alteryx" in window) {
                 sortedFields.push({
                     text: config[prop].text,
                     isPattern: config[prop].isPattern === 'true',
+                    selected: false,
                 });
             }
         }
@@ -35,7 +36,8 @@ if ("Alteryx" in window) {
     gui.GetConfiguration = function() {
         let config = {};
         for (let i = 0; i < window.FieldSorter.sortedFields.length; i++) {
-            config["Field" + i] = window.FieldSorter.sortedFields[i];
+            let field = window.FieldSorter.sortedFields[i];
+            config["Field" + i] = {text: field.text, isPattern: field.isPattern};
         }
 
         console.log(config);
@@ -61,9 +63,9 @@ if ("Alteryx" in window) {
             {strName: "Group3"},
         ],
         sortedFields: [
-            {text: "Id", isPattern: false},
-            {text: "Group\\d", isPattern: true},
-            {text: "SuperDuperDuper DuperLongFieldName", isPattern: false},
+            {text: "Id", isPattern: false, selected: false},
+            {text: "Group\\d", isPattern: true, selected: false},
+            {text: "SuperDuperDuper DuperLongFieldName", isPattern: false, selected: false},
         ]
     };
     render();
