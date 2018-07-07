@@ -24,7 +24,7 @@ if ("Alteryx" in window) {
                     selected: false,
                 });
             } else if (prop === 'alphabetical') {
-                alphabetical = config[prop].alphabetical === 'true';
+                alphabetical = config[prop] === 'true';
             }
         }
 
@@ -41,10 +41,8 @@ if ("Alteryx" in window) {
         let config = {alphabetical: window.FieldSorter.alphabetical};
         for (let i = 0; i < window.FieldSorter.sortedFields.length; i++) {
             let field = window.FieldSorter.sortedFields[i];
-            config["Field" + i] = {text: field.text, isPattern: field.isPattern};
+            config["field" + i] = {text: field.text, isPattern: field.isPattern};
         }
-
-        console.log(config);
 
         window.Alteryx.JsEvent(JSON.stringify({
             Event: 'GetConfiguration',

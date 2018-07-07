@@ -187,7 +187,7 @@ class App extends Component {
                 <div>
                     <button className="CoreButton EndButton" type="button" onClick={this.selectAllUnmatched} >All</button>
                     <button className="CoreButton MiddleButton" type="button" onClick={this.selectNoneUnmatched} >None</button>
-                    <button className="CoreButton EndButton" type="button" onClick={this.addUnsorted} >Add Selected</button>
+                    <button className="CoreButton EndButton" type="button" onClick={this.addUnsorted} >Add</button>
                 </div>
                 <div>
                     <select id="Unsorted" className="UnmatchedFields" multiple="multiple" size={displaySize}>
@@ -209,7 +209,7 @@ class App extends Component {
                     <div>Sorted fields</div>
                     <button className="CoreButton EndButton" type="button" onClick={this.selectAllSorted} >All</button>
                     <button className="CoreButton MiddleButton" type="button" onClick={this.selectNoneSorted} >None</button>
-                    <button className="CoreButton EndButton" type="button" onClick={this.deleteSorted} >Delete Selected</button>
+                    <button className="CoreButton EndButton" type="button" onClick={this.deleteSorted} >Delete</button>
                 </div>
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Droppable droppableId="droppable">

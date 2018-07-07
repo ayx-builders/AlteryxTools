@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 import AlteryxPythonSDK as Sdk
 from typing import List
-from FieldSorterCore.FieldSorterCore import SortItem, sort_fields, Translation
+from FieldSorterCore.FieldSorterCore import SortItem, sort_fields
 import xml.etree.ElementTree as Et
 
 class AyxPlugin:
@@ -21,19 +21,20 @@ class AyxPlugin:
         self.output: Sdk.OutputAnchor = None
 
     def pi_init(self, str_xml: str):
-        sort: str = Et.fromstring(str_xml).find('SortList').text if 'SortList' in str_xml else None
-
         self.SortList.clear()
-        if sort is not None:
-            items: List[str] = sort.splitlines()
-            for item in items:
-                isPattern = False
-                if item[-2:] == '-P':
-                    item = item[:-2]
-                    isPattern = True
-                self.SortList.append(SortItem(item, isPattern))
-
-        self.Alphabetical = Et.fromstring(str_xml).find('Alphabetical').text == 'True' if 'Alphabetical' in str_xml else False
+        tree = Et.fromstring(str_xml)
+        for node in tree:
+            if node.tag == 'alphabetical':
+                self.Alphabetical = node.text == 'true'
+            elif node.tag[:5] == 'field':
+                isPattern: bool = False
+                text: str = ''
+                for prop in node:
+                    if prop.tag == 'text':
+                        text = prop.text
+                    elif prop.tag == 'isPattern':
+                        isPattern = prop.text == 'true'
+                self.SortList.append(SortItem(text, isPattern))
 
         # Getting the output anchor from Config.xml by the output connection name
         self.output = self.output_anchor_mgr.get_output_anchor('Output')
