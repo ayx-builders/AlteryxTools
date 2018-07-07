@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
- import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import ReactModal from 'react-modal';
 
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -20,11 +21,17 @@ function getUnmatchedFields() {
 
         for (let iSorted = 0; iSorted < sortedFields.length; iSorted++) {
             let matcher = sortedFields[iSorted];
-            let searchFor = matcher.isPattern ? new RegExp("^" + matcher.text + "$", "i") : matcher.text;
 
-            if (incomingFields[iIn].strName.search(searchFor) >= 0) {
-                isFound = true;
-                break;
+            if (matcher.isPattern) {
+                if (incomingFields[iIn].strName.search(new RegExp("^" + matcher.text + "$", "i")) >= 0) {
+                    isFound = true;
+                    break;
+                }
+            } else {
+                if (incomingFields[iIn].strName === matcher.text){
+                    isFound = true;
+                    break;
+                }
             }
         }
 
@@ -47,10 +54,22 @@ class App extends Component {
         this.selectNoneUnmatched = this.selectNoneUnmatched.bind(this);
         this.addSortedManually = this.addSortedManually.bind(this);
         this.textboxEnterKeyHandler = this.textboxEnterKeyHandler.bind(this);
+        this.alphabeticalChanged = this.alphabeticalChanged.bind(this);
+        this.refreshUnmatched = this.refreshUnmatched.bind(this);
     }
 
     unmatchedFields = [];
-    addErrorVisibility = 'collapse';
+    addErrorVisibility = 'hidden';
+
+    refreshUnmatched() {
+        this.unmatchedFields = getUnmatchedFields();
+        this.forceUpdate();
+    }
+
+    alphabeticalChanged() {
+        window.FieldSorter.alphabetical = !window.FieldSorter.alphabetical;
+        this.forceUpdate();
+    }
 
     textboxEnterKeyHandler(event) {
         if (event.keyCode === 13) {
@@ -66,11 +85,11 @@ class App extends Component {
         if (textbox.value === ''){
             this.addErrorVisibility = 'visible';
         } else {
-            this.addErrorVisibility = 'collapse';
+            this.addErrorVisibility = 'hidden';
             window.FieldSorter.sortedFields.push({
-               text: textbox.value,
-               isPattern: isPattern.checked,
-               selected: false,
+                text: textbox.value,
+                isPattern: isPattern.checked,
+                selected: false,
             });
             textbox.value = '';
         }
@@ -158,7 +177,13 @@ class App extends Component {
 
         return (
             <div className="App">
-                <div>Unsorted fields</div>
+                <div>
+                    <label>
+                        <input type='checkbox' checked={window.FieldSorter.alphabetical} onChange={this.alphabeticalChanged} />
+                        Regex matches and unsorted fields are sorted alphabetically
+                    </label>
+                </div>
+                <div className='SectionMargin'>Unsorted fields</div>
                 <div>
                     <button className="CoreButton EndButton" type="button" onClick={this.selectAllUnmatched} >All</button>
                     <button className="CoreButton MiddleButton" type="button" onClick={this.selectNoneUnmatched} >None</button>
@@ -190,7 +215,7 @@ class App extends Component {
                     <Droppable droppableId="droppable">
                         {(droppableProvided, droppableSnapshot) => (
                             <div className='SortedFields'
-                                ref={droppableProvided.innerRef}
+                                 ref={droppableProvided.innerRef}
                             >
                                 {window.FieldSorter.sortedFields.map((item, index) => (
                                     <Draggable key={item.text} draggableId={item.text} index={index}>
@@ -200,7 +225,7 @@ class App extends Component {
                                                 {...draggableProvided.draggableProps}
                                                 {...draggableProvided.dragHandleProps}
                                             >
-                                                <SortRow key={index} sortField={item} />
+                                                <SortRow key={index} sortField={item} index={index} updateCallback={this.refreshUnmatched} />
                                             </div>
                                         )}
                                     </Draggable>
@@ -219,17 +244,37 @@ class SortRow extends Component {
     constructor(props) {
         super(props);
         this.isPatternChanged = this.isPatternChanged.bind(this);
-        this.textChanged = this.textChanged.bind(this);
         this.selectionChanged = this.selectionChanged.bind(this);
+        this.editText = this.editText.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.textboxEnterKeyHandler = this.textboxEnterKeyHandler.bind(this);
+    }
+
+    isEditing = false;
+    errorVisibility = 'hidden';
+
+    textboxEnterKeyHandler(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            let textbox = document.getElementById(this.props.index);
+            if (textbox.value === ''){
+                this.errorVisibility = 'visible';
+            } else {
+                this.errorVisibility = 'hidden';
+                this.props.sortField.text = textbox.value;
+                this.isEditing = false;
+                this.props.updateCallback();
+            }
+        }
     }
 
     isPatternChanged() {
         this.props.sortField.isPattern = !this.props.sortField.isPattern;
-        this.forceUpdate();
+        this.props.updateCallback();
     }
 
-    textChanged(event) {
-        this.props.sortField.text = event.target.value;
+    editText() {
+        this.isEditing = true;
         this.forceUpdate();
     }
 
@@ -238,11 +283,25 @@ class SortRow extends Component {
         this.forceUpdate();
     }
 
+    handleClose() {
+        this.isEditing = false;
+        this.forceUpdate();
+    }
+
     render(){
         return <div className="SortedField" style={{backgroundColor: this.props.sortField.selected ? 'lightblue' : 'white'}} >
             <DragHandleIcon onClick={this.selectionChanged} />
             <div onClick={this.isPatternChanged} className='SortFieldCell IsPatternIndicator'>{this.props.sortField.isPattern ? '(.)*' : ''}</div>
-            <div className='SortFieldCell SortFieldText' >{this.props.sortField.text}</div>
+            <div onClick={this.editText} className='SortFieldCell SortFieldText'>{this.props.sortField.text}</div>
+            <ReactModal
+                isOpen={this.isEditing}
+                ariaHideApp={false}
+                onRequestClose={()=>{this.isEditing = false;this.forceUpdate();}}
+                style={{ content: {height: 40, left: '25%', right: '25%', top: '40%'}}}
+            >
+                <input id={this.props.index} style={{width: '100%'}} autoFocus defaultValue={this.props.sortField.text} onKeyUp={this.textboxEnterKeyHandler} />
+                <div style={{visibility: this.errorVisibility, color: 'red'}} >A value must be provided</div>
+            </ReactModal>
         </div>
     }
 }
@@ -257,3 +316,4 @@ class DragHandleIcon extends Component {
 }
 
 export default App;
+

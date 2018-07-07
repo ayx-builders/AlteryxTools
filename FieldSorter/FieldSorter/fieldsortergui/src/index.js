@@ -14,6 +14,7 @@ if ("Alteryx" in window) {
     gui.AfterLoad = function(manager, AlteryxDataItems) {
         let sortedFields = [];
         let config = manager.toolInfo.Configuration.Configuration == null ? {} : manager.toolInfo.Configuration.Configuration;
+        let alphabetical = false;
 
         for (let prop in config) {
             if (config[prop].hasOwnProperty('text') && config[prop].hasOwnProperty('isPattern')) {
@@ -22,19 +23,22 @@ if ("Alteryx" in window) {
                     isPattern: config[prop].isPattern === 'true',
                     selected: false,
                 });
+            } else if (prop === 'alphabetical') {
+                alphabetical = config[prop].alphabetical === 'true';
             }
         }
 
         window.FieldSorter = {
             incomingFields: manager.getIncomingFields(),
             sortedFields: sortedFields,
+            alphabetical: alphabetical,
         };
 
         render();
     };
 
     gui.GetConfiguration = function() {
-        let config = {};
+        let config = {alphabetical: window.FieldSorter.alphabetical};
         for (let i = 0; i < window.FieldSorter.sortedFields.length; i++) {
             let field = window.FieldSorter.sortedFields[i];
             config["Field" + i] = {text: field.text, isPattern: field.isPattern};
@@ -66,7 +70,8 @@ if ("Alteryx" in window) {
             {text: "Id", isPattern: false, selected: false},
             {text: "Group\\d", isPattern: true, selected: false},
             {text: "SuperDuperDuper DuperLongFieldName", isPattern: false, selected: false},
-        ]
+        ],
+        alphabetical: false,
     };
     render();
 }
