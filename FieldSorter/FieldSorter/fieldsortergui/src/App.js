@@ -3,6 +3,9 @@ import './App.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactModal from 'react-modal';
 
+const noValueError = 'A value must be provided';
+const dupValueError = 'That value already exists';
+
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -42,6 +45,17 @@ function getUnmatchedFields() {
     return unmatchedFields;
 }
 
+function isDuplicate(str) {
+    let isDuplicate = false;
+    for (let i = 0; i < window.FieldSorter.sortedFields.length; i++){
+        if (str === window.FieldSorter.sortedFields[i].text){
+            isDuplicate = true;
+            break;
+        }
+    }
+    return isDuplicate;
+}
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -60,6 +74,7 @@ class App extends Component {
 
     unmatchedFields = [];
     addErrorVisibility = 'hidden';
+    errorText = '';
 
     refreshUnmatched() {
         this.unmatchedFields = getUnmatchedFields();
@@ -81,8 +96,13 @@ class App extends Component {
     addSortedManually(){
         let textbox = document.getElementById("NewSortedText");
         let isPattern = document.getElementById("NewSortedIsPattern");
+        let value = textbox.value;
 
-        if (textbox.value === ''){
+        if (value === ''){
+            this.errorText = noValueError;
+            this.addErrorVisibility = 'visible';
+        } else if (isDuplicate(value)) {
+            this.errorText = dupValueError;
             this.addErrorVisibility = 'visible';
         } else {
             this.addErrorVisibility = 'hidden';
@@ -177,33 +197,49 @@ class App extends Component {
 
         return (
             <div className="App">
-                <div>
-                    <label>
-                        <input type='checkbox' checked={window.FieldSorter.alphabetical} onChange={this.alphabeticalChanged} />
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                        <input style={{width: 13}} type='checkbox' checked={window.FieldSorter.alphabetical} onChange={this.alphabeticalChanged} />
+                        </td>
+                    <td>
                         Regex matches and unsorted fields are sorted alphabetically
-                    </label>
-                </div>
-                <div className='SectionMargin'>Unsorted fields</div>
-                <div>
-                    <button className="CoreButton EndButton" type="button" onClick={this.selectAllUnmatched} >All</button>
-                    <button className="CoreButton MiddleButton" type="button" onClick={this.selectNoneUnmatched} >None</button>
-                    <button className="CoreButton EndButton" type="button" onClick={this.addUnsorted} >Add</button>
-                </div>
-                <div>
-                    <select id="Unsorted" className="UnmatchedFields" multiple="multiple" size={displaySize}>
-                        {this.unmatchedFields.map(item => {
-                            return <option key={item.strName}>{item.strName}</option>;
-                        })}
-                    </select>
-                </div>
+                    </td>
+                    </tr>
+                    </tbody>
+                </table>
+                {
+                    this.unmatchedFields.length > 0 ?
+                        <div>
+                            <div className='SectionMargin'>Unsorted fields</div>
+                            <div>
+                                <button className="CoreButton EndButton" type="button" onClick={this.selectAllUnmatched} >All</button>
+                                <button className="CoreButton MiddleButton" type="button" onClick={this.selectNoneUnmatched} >None</button>
+                                <button className="CoreButton EndButton" type="button" onClick={this.addUnsorted} >Add</button>
+                            </div>
+                            <div>
+                                <select id="Unsorted" className="UnmatchedFields" multiple="multiple" size={displaySize}>
+                                    {this.unmatchedFields.map(item => {
+                                        return <option key={item.strName}>{item.strName}</option>;
+                                    })}
+                                </select>
+                            </div>
+                        </div> :
+                        <div></div>
+                }
                 <div className='SectionMargin'>
                     <div>Add sorted field manually</div>
-                    <div style={{display:'flex',flexDirection:'row'}}>
-                        <button onClick={this.addSortedManually}>+</button>
-                        <input id='NewSortedText' style={{flex: 1}} type='text' onKeyUp={this.textboxEnterKeyHandler} />
-                        <label><input id='NewSortedIsPattern' type='checkbox' />regex pattern?</label>
-                    </div>
-                    <div style={{visibility: this.addErrorVisibility, color: 'red'}} >A value must be provided</div>
+                    <table cellPadding={0} cellSpacing={0} style={{width: '100%', border: 'none'}}>
+                        <tbody>
+                        <tr>
+                        <td style={{width: 1}} ><button style={{width: 24}} onClick={this.addSortedManually}>+</button></td>
+                        <td style={{maxWidth: '100%', paddingRight: 4}} ><input style={{width: '100%'}} id='NewSortedText' type='text' onKeyUp={this.textboxEnterKeyHandler} /></td>
+                        <td style={{whiteSpace: 'nowrap', width: 1}} ><input style={{width: 13}} id='NewSortedIsPattern' type='checkbox' />regex pattern?</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style={{visibility: this.addErrorVisibility, color: 'red'}} >{this.errorText}</div>
                 </div>
                 <div className='SectionMargin'>
                     <div>Sorted fields</div>
@@ -252,13 +288,21 @@ class SortRow extends Component {
 
     isEditing = false;
     errorVisibility = 'hidden';
+    errorText = '';
 
     textboxEnterKeyHandler(event) {
         if (event.keyCode === 13) {
             event.preventDefault();
             let textbox = document.getElementById(this.props.index);
-            if (textbox.value === ''){
+            let value = textbox.value;
+            if (value === ''){
+                this.errorText = noValueError;
                 this.errorVisibility = 'visible';
+                this.forceUpdate();
+            } else if (isDuplicate(value)) {
+                this.errorText = dupValueError;
+                this.errorVisibility = 'visible';
+                this.forceUpdate();
             } else {
                 this.errorVisibility = 'hidden';
                 this.props.sortField.text = textbox.value;
@@ -300,7 +344,7 @@ class SortRow extends Component {
                 style={{ content: {height: 40, left: '25%', right: '25%', top: '40%'}}}
             >
                 <input id={this.props.index} style={{width: '100%'}} autoFocus defaultValue={this.props.sortField.text} onKeyUp={this.textboxEnterKeyHandler} />
-                <div style={{visibility: this.errorVisibility, color: 'red'}} >A value must be provided</div>
+                <div style={{visibility: this.errorVisibility, color: 'red'}} >{this.errorText}</div>
             </ReactModal>
         </div>
     }
