@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="FieldSorter.py" SDKVersion="10.1" />
+  <GuiSettings Html="index.html" Icon="FieldSorterIcon.png" Help="" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>Field Sorter</Name>
+      <Description>Sorts fields based on provided criteria.  Changes to the incoming field structure will not affect the sort order defined by this tool.</Description>
+      <CategoryName>Preparation</CategoryName>
+      <SearchTags>python</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>Thomas Larsen</Author>
+      <Company></Company>
+      <Copyright>2018</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
