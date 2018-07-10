@@ -193,7 +193,7 @@ class App extends Component {
     render() {
         this.unmatchedFields = getUnmatchedFields();
 
-        let displaySize = Math.min(20,this.unmatchedFields.length);
+        let displaySize = 10;
 
         return (
             <div className="App">
@@ -335,7 +335,7 @@ class SortRow extends Component {
     render(){
         return <div className="SortedField" style={{backgroundColor: this.props.sortField.selected ? 'lightblue' : 'white'}} >
             <DragHandleIcon onClick={this.selectionChanged} />
-            <div onClick={this.isPatternChanged} className='SortFieldCell IsPatternIndicator'>{this.props.sortField.isPattern ? '(.)*' : ''}</div>
+            <div onClick={this.isPatternChanged} className='SortFieldCell IsPatternIndicator'>{this.props.sortField.isPattern ? '(.*)' : ''}</div>
             <div onClick={this.editText} className='SortFieldCell SortFieldText'>{this.props.sortField.text}</div>
             <ReactModal
                 isOpen={this.isEditing}
