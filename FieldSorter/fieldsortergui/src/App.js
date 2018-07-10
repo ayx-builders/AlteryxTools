@@ -299,7 +299,7 @@ class SortRow extends Component {
                 this.errorText = noValueError;
                 this.errorVisibility = 'visible';
                 this.forceUpdate();
-            } else if (isDuplicate(value)) {
+            } else if (isDuplicate(value) && value !== this.props.sortField.text) {
                 this.errorText = dupValueError;
                 this.errorVisibility = 'visible';
                 this.forceUpdate();
@@ -340,7 +340,7 @@ class SortRow extends Component {
             <ReactModal
                 isOpen={this.isEditing}
                 ariaHideApp={false}
-                onRequestClose={()=>{this.isEditing = false;this.forceUpdate();}}
+                onRequestClose={()=>{this.isEditing = false;this.errorVisibility = 'hidden';this.forceUpdate();}}
                 style={{ content: {height: 40, left: '25%', right: '25%', top: '40%'}}}
             >
                 <input id={this.props.index} style={{width: '100%'}} autoFocus defaultValue={this.props.sortField.text} onKeyUp={this.textboxEnterKeyHandler} />
