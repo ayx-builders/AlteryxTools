@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="CustomAlteryxTools.dll" EngineDllEntryPoint=".Net:CustomAlteryxTools.SsasImporter" SDKVersion="10.1" />
+  <GuiSettings Html="SsasImporter.html" Icon="SsasImporterIcon.png" Help="" SDKVersion="10.1">
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>SSAS Input</Name>
+      <Description>Imports MDX queries from an SSAS service.</Description>
+      <CategoryName>Connectors</CategoryName>
+      <SearchTags>SSAS, MDX</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>Thomas Larsen</Author>
+      <Company></Company>
+      <Copyright>2018</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>

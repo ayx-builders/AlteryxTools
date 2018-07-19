@@ -15,7 +15,7 @@
       <Description>Sorts fields based on provided criteria.  Changes to the incoming field structure will not affect the sort order defined by this tool.</Description>
       <CategoryName>Preparation</CategoryName>
       <SearchTags>python</SearchTags>
-      <ToolVersion>1.01</ToolVersion>
+      <ToolVersion>1.02</ToolVersion>
       <Author>Thomas Larsen</Author>
       <Company></Company>
       <Copyright>2018</Copyright>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>SSAS Input</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("Import MDX Query")</legend>
+      <div class=''>
+        <label>XMSG("Enter the server:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'dataSource'}"></ayx>
+        <label>XMSG("Enter the catalog:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'catalog'}"></ayx>
+        <label>XMSG("Enter an MDX query:")</label>
+		<ayx data-ui-props="{type: 'TextArea', rows: 10}" data-item-props="{dataName: 'mdx'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+
+  <style>
+    .blueTitle {
+      background-color: #e5e5e5;
+    }
+  </style>
+</body>
+</html>
