@@ -4,7 +4,7 @@ Custom Alteryx tools built using the Python and HTML GUI SDKs.
 
 ## Installation
 
-Download zip files from the [releases](https://github.com/tlarsen7572/AlteryxTools/releases) page.  Each zip file contains a YXI installer and a sample workflow.  Run the YXI installer to install the custom tool.
+Download zip files from the [releases](https://github.com/Alteryx-Python/AlteryxTools/releases) page.  Each zip file contains a YXI installer and a sample workflow.  Run the YXI installer to install the custom tool.
 
 ## Tools
 
