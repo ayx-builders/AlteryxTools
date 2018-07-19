@@ -63,3 +63,16 @@ target/
 # Alteryx files
 *.yxi
 *.zip
+*.bak
+
+# Python virtual environments
+Scripts/
+Lib/
+venv/
+pyvenv.cfg
+
+# Visual studio builds
+bin/
+obj/
+packages/
+.vs/

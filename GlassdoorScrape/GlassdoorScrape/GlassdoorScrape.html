@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>Glassdoor Company Review Scraper (BETA)</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("Glassdoor Company Review Scraper (BETA)")</legend>
+      <div class=''>
+        <label>XMSG("Which field contains the company name?:")</label>
+		<ayx data-ui-props="{type: 'DropDown'}" data-item-props="{dataName: 'CompanyNames', dataType: 'FieldSelector', fieldType: 'String', anchorIndex:'0', connectionIndex:'0'}"></ayx>
+        <label>XMSG("Maximum pages to download per company (0 means no limit):")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'maxPages', dataType: 'SimpleInt'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+
+  <style>
+    .blueTitle {
+      background-color: #e5e5e5;
+    }
+  </style>
+</body>
+</html>
