@@ -13,6 +13,12 @@ class ScrapeResults:
         self.GlassdoorPages: int = pages
         self.reviews: List[List[str]] = reviews
 
+class NameSearchResults:
+    def __init__(self, GlassdoorName: str, GlassdoorId: str, found: bool):
+        self.GlassdoorName: str = GlassdoorName
+        self.GlassdoorId: str = GlassdoorId
+        self.found: bool = found
+        self.BaseUrl: str = "https://www.glassdoor.com/Reviews/" + GlassdoorName + "-Reviews-" + GlassdoorId + "_P{page}.htm"
 
 def _DownloadString(URL):
     html = ""
@@ -215,6 +221,31 @@ def _ParseHTML(HTMLString) -> List[List[str]]:
 
     return OutputListing
 
+def searchCompanyName(company: str) -> NameSearchResults:
+    company = _EncodeURL(company)
+
+    URL = "https://www.glassdoor.com/Reviews/company-reviews.htm?suggestCount=0&suggestChosen=true&clickSource=searchBtn&typedKeyword={search}&sc.keyword={search}&locT=&locId=&jobType="
+    URL = URL.replace("{search}", company)
+
+    HTML = _DownloadString(URL)
+    companyReviewUrl = _GetStringBetween(HTML, "<a class='eiCell cell reviews' href='", "'>", "", True)
+    companyReviewUrl = companyReviewUrl.lstrip('/Reviews/')
+    companyReviewUrl = companyReviewUrl.rstrip('.htm')
+
+    GlassdoorName: str
+    GlsasdoorName: str
+    found: bool
+    if companyReviewUrl.find('-Reviews-') != -1:
+        GlassdoorName = companyReviewUrl.split('-Reviews-')[0]
+        GlassdoorId = companyReviewUrl.split('-Reviews-')[1]
+        found = True
+    else:
+        GlassdoorName = ''
+        GlassdoorId = ''
+        found = False
+
+    return NameSearchResults(GlassdoorName, GlassdoorId, found)
+
 
 def getReviews(company: str, maxPages: int = 0) -> ScrapeResults:
     GlassdoorId: str = ""
@@ -224,52 +255,34 @@ def getReviews(company: str, maxPages: int = 0) -> ScrapeResults:
     reviews: List[List[str]] = []
 
     if company is not None and len(company) > 0:
-        company = _EncodeURL(company)
-        # Query URL, parse and save
-        URL = "https://www.glassdoor.com/Reviews/company-reviews.htm?suggestCount=0&suggestChosen=true&clickSource=searchBtn&typedKeyword={search}&sc.keyword={search}&locT=&locId=&jobType="
-        URL = URL.replace("{search}", company)
+        searchResults = searchCompanyName(company)
 
-        HTML = _DownloadString(URL)
-        GlassdoorName = _GetStringBetween(HTML,
-                                               "<input name='sc.keyword' id='sc.keyword' class='keyword' type='text' tabindex='0' value='",
-                                               "'", "", True)
-        GlassdoorId = _GetStringBetween(HTML,
-                                      "<div class='vline cell showDesk'><i></i></div><a class='eiCell cell reviews'",
-                                      "><span class=", "", True)
-
-        # href='/Reviews/Slalom-Reviews-E31102.htm'>
-        GlassdoorId = _GetStringBetween(GlassdoorId, "Reviews-", ".htm", "", True)
-        if len(GlassdoorId) == 0:
-            GlassdoorId = _GetStringBetween(HTML, "Reviews-", ".htm", "", True)
-
-        link = _GetStringBetween(HTML, "<a class='eiCell cell reviews' href='/", ".htm'", "", True)
-        if len(link) == 0:
+        if not searchResults.found:
             GlassdoorId = ""
-            GlassdoorLink = "!Not found in original site. Check URL: " + URL
+            GlassdoorName = ""
+            GlassdoorLink = "!Not found in original site."
             GlassdoorPages = -1
         else:
-            GlassdoorLink = "https://www.glassdoor.com/Reviews/" + link
-            GlassdoorLink = GlassdoorLink + "_P{page}.htm"
+            GlassdoorId = searchResults.GlassdoorId
+            GlassdoorName = searchResults.GlassdoorName
+            GlassdoorLink = searchResults.BaseUrl
 
-    # If we have a link then we create a filename and harvest?
-    if GlassdoorLink.find("https:", 0) == 0 and GlassdoorPages != -1:
-        tryScrape = True
+            tryScrape = True
+            while tryScrape and (GlassdoorPages <= maxPages or maxPages == 0):
+                currenturl = GlassdoorLink.replace("{page}", str(GlassdoorPages))
 
-        while tryScrape and (GlassdoorPages <= maxPages or maxPages == 0):
-            currenturl = GlassdoorLink.replace("{page}", str(GlassdoorPages))
+                HTML = _DownloadString(currenturl)
+                if HTML is not None:
+                    for review in _ParseHTML(HTML):
+                        reviews.append(review)
 
-            HTML = _DownloadString(currenturl)
-            if HTML is not None:
-                for review in _ParseHTML(HTML):
-                    reviews.append(review)
+                    if HTML.find("<li class='next'><span class='disabled'><i><span>Next</span>", 0) != -1:
+                        tryScrape = False
 
-                if HTML.find("<li class='next'><span class='disabled'><i><span>Next</span>", 0) != -1:
+                    GlassdoorPages = GlassdoorPages + 1
+                    _PauseScript(1)  # how long between scrapes
+
+                else:
                     tryScrape = False
 
-                GlassdoorPages = GlassdoorPages + 1
-                _PauseScript(1)  # how long between scrapes
-
-            else:
-                tryScrape = False
-
-    return ScrapeResults(GlassdoorId, GlassdoorName, GlassdoorLink, GlassdoorPages, reviews)
+    return ScrapeResults(GlassdoorId, GlassdoorName, GlassdoorLink, GlassdoorPages - 1, reviews)

@@ -88,7 +88,7 @@ class IncomingInterface:
                                          "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
             self.ReviewsRecord.add_field("Employee Title", Sdk.FieldType.v_wstring, 100, 0,
                                          "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Employment Type", Sdk.FieldType.v_wstring, 20, 0,
+            self.ReviewsRecord.add_field("Employment Type", Sdk.FieldType.v_wstring, 100, 0,
                                          "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
 
             self.ReviewsRecord.add_field("Location", Sdk.FieldType.v_wstring, 100, 0,
