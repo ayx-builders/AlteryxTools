@@ -153,11 +153,11 @@ class IncomingInterface:
 
     def ii_push_record(self, in_record: Sdk.RecordRef) -> bool:
         company: str = self.CompanyNamesField.get_as_string(in_record)
-        try:
-            result = getReviews(company, self.parent.maxPages)
-        except:
-            self.pushNullOutput(in_record)
-            return False
+        # try:
+        result = getReviews(company, self.parent.maxPages)
+        # except:
+        #    self.pushNullOutput(in_record)
+        #    return False
 
         self.pushOutput(result, in_record)
         self.pushReviews(result)

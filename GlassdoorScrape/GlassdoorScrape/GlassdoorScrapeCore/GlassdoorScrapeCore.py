@@ -6,6 +6,8 @@ import time
 import re
 
 
+baseUrl = "https://www.glassdoor.com"
+
 class ScrapeResults:
     def __init__(self, id: str, name: str, link: str, pages: int, reviews: List[List[str]]):
         self.GlassdoorId: str = id
@@ -19,7 +21,7 @@ class NameSearchResults:
         self.GlassdoorName: str = GlassdoorName
         self.GlassdoorId: str = GlassdoorId
         self.found: bool = found
-        self.BaseUrl: str = "https://www.glassdoor.com/Reviews/-Reviews-" + GlassdoorId + "_P{page}.htm?sort.sortType=RD&sort.ascending=false"
+        self.BaseUrl: str = baseUrl + "/Reviews/-Reviews-" + GlassdoorId + "_P{page}.htm?sort.sortType=RD&sort.ascending=false"
 
 def _DownloadString(URL):
     html = ""
@@ -222,42 +224,50 @@ def _ParseHTML(HTMLString) -> List[List[str]]:
 
     return OutputListing
 
+
+def _getGdGlobals(HTML) -> str:
+    return _GetStringBetween(HTML, "window.gdGlobals", "</script>", "", True)
+
+
+def _parseCompanyOverview(HTML) -> NameSearchResults:
+    gdGlobals = _getGdGlobals(HTML)
+
+    companyData = _GetStringBetween(gdGlobals, "'employer'", "}", "", False)
+    companyData = re.sub("'name'\s*:\s*", "'name':", companyData)
+    companyData = re.sub("'id'\s*:\s*", "'id':", companyData)
+
+    GlassdoorName = _GetStringBetween(companyData, "'name':\"", '"', "", False)
+    GlassdoorId = "E" + _GetStringBetween(companyData, "'id':\"", '"', "", False)
+    if GlassdoorId == "":
+        found = False
+    else:
+        found = True
+
+    return NameSearchResults(GlassdoorName, GlassdoorId, found)
+
+
 def searchCompanyName(company: str) -> NameSearchResults:
     company = _EncodeURL(company)
 
-    URL = "https://www.glassdoor.com/Reviews/company-reviews.htm?suggestCount=0&suggestChosen=true&clickSource=searchBtn&typedKeyword={search}&sc.keyword={search}&locT=&locId=&jobType="
-    URL = URL.replace("{search}", company)
+    URL = baseUrl + "/Reviews/company-reviews.htm?sc.keyword=" + company
 
     HTML = _DownloadString(URL)
-    returnedGdGlobals = _GetStringBetween(HTML, "window.gdGlobals", "</script>", "", True)
+    returnedGdGlobals = _getGdGlobals(HTML)
 
     if re.search("'analyticsUrl'\s*:\s*\"/employerInfo", returnedGdGlobals, re.MULTILINE) is not None:
         print("Employer info retrieved")
-
-        companyData = _GetStringBetween(returnedGdGlobals, "'employer'", "}", "", False)
-        companyData = re.sub("'name'\s*:\s*", "'name':", companyData)
-        companyData = re.sub("'id'\s*:\s*", "'id':", companyData)
-
-        GlassdoorName = _GetStringBetween(companyData, "'name':\"", '"', "", False)
-        GlassdoorId = "E" + _GetStringBetween(companyData, "'id':\"", '"', "", False)
-        found = True
+        return _parseCompanyOverview(HTML)
     else:
         print("Search list retrieved, taking the first result")
 
-        companyReviewUrl = _GetStringBetween(HTML, "<a class='eiCell cell reviews' href='", "'>", "", True)
-        companyReviewUrl = companyReviewUrl.lstrip('/Reviews/')
-        companyReviewUrl = companyReviewUrl.rstrip('.htm')
+        overviewUrl = _GetStringBetween(HTML, "href='/Overview/", ".htm'", "", True)
+        if overviewUrl == "":
+            print("The search did not find any matching companies")
+            return NameSearchResults("", "", False)
 
-        if companyReviewUrl.find('-Reviews-') != -1:
-            GlassdoorName = companyReviewUrl.split('-Reviews-')[0].replace("-", " ")
-            GlassdoorId = companyReviewUrl.split('-Reviews-')[1]
-            found = True
-        else:
-            GlassdoorName = ''
-            GlassdoorId = ''
-            found = False
-
-    return NameSearchResults(GlassdoorName, GlassdoorId, found)
+        HTML = _DownloadString(baseUrl + "/Overview/" + overviewUrl + ".htm")
+        print("Employer info retrieved")
+        return _parseCompanyOverview(HTML)
 
 
 def getReviews(company: str, maxPages: int = 0) -> ScrapeResults:
