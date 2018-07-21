@@ -3,6 +3,7 @@ from urllib.request import Request, urlopen, HTTPError
 from lxml import html
 from lxml.html.clean import clean_html
 import time
+import re
 
 
 class ScrapeResults:
@@ -18,7 +19,7 @@ class NameSearchResults:
         self.GlassdoorName: str = GlassdoorName
         self.GlassdoorId: str = GlassdoorId
         self.found: bool = found
-        self.BaseUrl: str = "https://www.glassdoor.com/Reviews/" + GlassdoorName + "-Reviews-" + GlassdoorId + "_P{page}.htm"
+        self.BaseUrl: str = "https://www.glassdoor.com/Reviews/-Reviews-" + GlassdoorId + "_P{page}.htm?sort.sortType=RD&sort.ascending=false"
 
 def _DownloadString(URL):
     html = ""
@@ -228,21 +229,33 @@ def searchCompanyName(company: str) -> NameSearchResults:
     URL = URL.replace("{search}", company)
 
     HTML = _DownloadString(URL)
-    companyReviewUrl = _GetStringBetween(HTML, "<a class='eiCell cell reviews' href='", "'>", "", True)
-    companyReviewUrl = companyReviewUrl.lstrip('/Reviews/')
-    companyReviewUrl = companyReviewUrl.rstrip('.htm')
+    returnedGdGlobals = _GetStringBetween(HTML, "window.gdGlobals", "</script>", "", True)
 
-    GlassdoorName: str
-    GlsasdoorName: str
-    found: bool
-    if companyReviewUrl.find('-Reviews-') != -1:
-        GlassdoorName = companyReviewUrl.split('-Reviews-')[0]
-        GlassdoorId = companyReviewUrl.split('-Reviews-')[1]
+    if re.search("'analyticsUrl'\s*:\s*\"/employerInfo", returnedGdGlobals, re.MULTILINE) is not None:
+        print("Employer info retrieved")
+
+        companyData = _GetStringBetween(returnedGdGlobals, "'employer'", "}", "", False)
+        companyData = re.sub("'name'\s*:\s*", "'name':", companyData)
+        companyData = re.sub("'id'\s*:\s*", "'id':", companyData)
+
+        GlassdoorName = _GetStringBetween(companyData, "'name':\"", '"', "", False)
+        GlassdoorId = "E" + _GetStringBetween(companyData, "'id':\"", '"', "", False)
         found = True
     else:
-        GlassdoorName = ''
-        GlassdoorId = ''
-        found = False
+        print("Search list retrieved, taking the first result")
+
+        companyReviewUrl = _GetStringBetween(HTML, "<a class='eiCell cell reviews' href='", "'>", "", True)
+        companyReviewUrl = companyReviewUrl.lstrip('/Reviews/')
+        companyReviewUrl = companyReviewUrl.rstrip('.htm')
+
+        if companyReviewUrl.find('-Reviews-') != -1:
+            GlassdoorName = companyReviewUrl.split('-Reviews-')[0].replace("-", " ")
+            GlassdoorId = companyReviewUrl.split('-Reviews-')[1]
+            found = True
+        else:
+            GlassdoorName = ''
+            GlassdoorId = ''
+            found = False
 
     return NameSearchResults(GlassdoorName, GlassdoorId, found)
 
@@ -273,10 +286,14 @@ def getReviews(company: str, maxPages: int = 0) -> ScrapeResults:
 
                 HTML = _DownloadString(currenturl)
                 if HTML is not None:
-                    for review in _ParseHTML(HTML):
+                    parsedReviews = _ParseHTML(HTML)
+                    for review in parsedReviews:
                         reviews.append(review)
 
                     if HTML.find("<li class='next'><span class='disabled'><i><span>Next</span>", 0) != -1:
+                        tryScrape = False
+
+                    if len(parsedReviews) != 10:
                         tryScrape = False
 
                     GlassdoorPages = GlassdoorPages + 1
@@ -285,4 +302,6 @@ def getReviews(company: str, maxPages: int = 0) -> ScrapeResults:
                 else:
                     tryScrape = False
 
-    return ScrapeResults(GlassdoorId, GlassdoorName, GlassdoorLink, GlassdoorPages - 1, reviews)
+            GlassdoorPages = GlassdoorPages - 1
+
+    return ScrapeResults(GlassdoorId, GlassdoorName, GlassdoorLink, GlassdoorPages, reviews)
