@@ -12,3 +12,4 @@ Download zip files from the [releases](https://github.com/Alteryx-Python/Alteryx
 * Field Sorter: Re-orders fields using a stable configuration that does not change with changes to incoming fields.  Fields may be sorted by matching exact values or regular expression patterns.
 * Glassdoor Scraper: Scrapes reviews from Glassdoor.
 * SSAS Importer: Allows users to import data from SSAS using an MDX query. This custom tool is not yet pre-packaged; the user must build and install it themselves.
+* Record Count Reporter: Counts incoming records without the overhead of a sort operation.  The user also provides a label describing the incoming data.

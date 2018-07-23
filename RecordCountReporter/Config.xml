@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <Properties>
+    <MetaInfo>
+      <Name>Record Count Reporter</Name>
+      <Description>Extracts the incoming record count along with a text label describing the input.</Description>
+      <CategoryName>Transform</CategoryName>
+      <SearchTags>python</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>Thomas Larsen</Author>
+      <Company></Company>
+      <Copyright>2018</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
