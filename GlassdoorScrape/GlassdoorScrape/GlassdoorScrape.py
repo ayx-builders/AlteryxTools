@@ -69,48 +69,9 @@ class IncomingInterface:
         self.GlassdoorPagesField: Sdk.Field = None
 
         self.ReviewsRecord: Sdk.RecordInfo = Sdk.RecordInfo(parent.alteryx_engine)
-        self.ReviewFields: List[Sdk.Field] = [
-            self.ReviewsRecord.add_field("Glassdoor ID", Sdk.FieldType.v_wstring, 10, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-
-            self.ReviewsRecord.add_field("Company Name", Sdk.FieldType.v_wstring, 100, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Review Date", Sdk.FieldType.v_wstring, 20, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Helpful (count)", Sdk.FieldType.v_wstring, 10, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Title (of the review)", Sdk.FieldType.v_wstring, 256, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-
-            self.ReviewsRecord.add_field("Rating (out of 5)", Sdk.FieldType.v_wstring, 3, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Current/ Past Employee", Sdk.FieldType.v_wstring, 10, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Employee Title", Sdk.FieldType.v_wstring, 100, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Employment Type", Sdk.FieldType.v_wstring, 100, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-
-            self.ReviewsRecord.add_field("Location", Sdk.FieldType.v_wstring, 100, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Recommends", Sdk.FieldType.v_wstring, 10, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Positive Outlook", Sdk.FieldType.v_wstring, 10, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Approves of CEO", Sdk.FieldType.v_wstring, 10, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-
-            self.ReviewsRecord.add_field("Time Employed", Sdk.FieldType.v_wstring, 100, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Pros", Sdk.FieldType.v_wstring, 5000, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Cons", Sdk.FieldType.v_wstring, 5000, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), ''),
-            self.ReviewsRecord.add_field("Advice to Management", Sdk.FieldType.v_wstring, 5000, 0,
-                                         "Glassdoor Scrape " + str(self.parent.n_tool_id), '')
-        ]
-
+        self.ReviewFields: List[Sdk.Field] = self.generate_review_fields(self.ReviewsRecord, self.parent.n_tool_id)
         self.ReviewsCreator: Sdk.RecordCreator = self.ReviewsRecord.construct_record_creator()
+        
 
     def ii_init(self, record_info_in: Sdk.RecordInfo) -> bool:
         # Make sure the user provided a field to parse
@@ -210,3 +171,26 @@ class IncomingInterface:
 
             output = self.ReviewsCreator.finalize_record()
             self.parent.Reviews.push_record(output)
+
+    def generate_review_fields(self, record: Sdk.RecordInfo, n_tool_id: int) -> List[Sdk.Field]:
+        source = "Glassdoor Scrape (" + str(n_tool_id) + ")"
+
+        return [
+            record.add_field("Glassdoor ID", Sdk.FieldType.v_wstring, 10, 0, source, ''),
+            record.add_field("Company Name", Sdk.FieldType.v_wstring, 100, 0, source, ''),
+            record.add_field("Review Date", Sdk.FieldType.v_wstring, 20, 0, source, ''),
+            record.add_field("Helpful (count)", Sdk.FieldType.v_wstring, 10, 0, source, ''),
+            record.add_field("Title (of the review)", Sdk.FieldType.v_wstring, 256, 0, source, ''),
+            record.add_field("Rating (out of 5)", Sdk.FieldType.v_wstring, 3, 0, source, ''),
+            record.add_field("Current/ Past Employee", Sdk.FieldType.v_wstring, 10, 0, source, ''),
+            record.add_field("Employee Title", Sdk.FieldType.v_wstring, 100, 0, source, ''),
+            record.add_field("Employment Type", Sdk.FieldType.v_wstring, 100, 0, source, ''),
+            record.add_field("Location", Sdk.FieldType.v_wstring, 100, 0, source, ''),
+            record.add_field("Recommends", Sdk.FieldType.v_wstring, 10, 0, source, ''),
+            record.add_field("Positive Outlook", Sdk.FieldType.v_wstring, 10, 0, source, ''),
+            record.add_field("Approves of CEO", Sdk.FieldType.v_wstring, 10, 0, source, ''),
+            record.add_field("Time Employed", Sdk.FieldType.v_wstring, 100, 0, source, ''),
+            record.add_field("Pros", Sdk.FieldType.v_wstring, 5000, 0, source, ''),
+            record.add_field("Cons", Sdk.FieldType.v_wstring, 5000, 0, source, ''),
+            record.add_field("Advice to Management", Sdk.FieldType.v_wstring, 5000, 0, source, '')
+            ]
