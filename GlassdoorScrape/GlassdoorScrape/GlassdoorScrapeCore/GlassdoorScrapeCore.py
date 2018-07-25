@@ -2,6 +2,7 @@ import GlassdoorScrapeCore.GlassdoorScrapUtilities as Ut
 from typing import List
 import re
 import GlassdoorScrapeCore.GlassdoorScrapeReviews as Reviews
+import GlassdoorScrapeCore.GlassdoorScrapeInterviews as Interviews
 
 baseUrl = "https://www.glassdoor.com"
 urlNotFound = "!Not found in original site."
@@ -87,6 +88,8 @@ def get_company_data(company: str, max_pages: int = 0) -> ScrapeResults:
                                  -1, [], search_results.BaseInterviewUrl, -1, [])
         else:
             reviews_result = Ut.scrape_list(search_results.BaseReviewUrl, Reviews.parse_html, max_pages)
+            interviews_result = Ut.scrape_list(search_results.BaseInterviewUrl, Interviews.parse_html, max_pages)
 
-            return ScrapeResults(search_results.GlassdoorId, search_results.GlassdoorName, search_results.BaseReviewUrl,
-                                 reviews_result[0], reviews_result[1], search_results.BaseInterviewUrl, -1, [])
+            return ScrapeResults(search_results.GlassdoorId, search_results.GlassdoorName,
+                                 search_results.BaseReviewUrl, reviews_result[0], reviews_result[1],
+                                 search_results.BaseInterviewUrl, interviews_result[0], interviews_result[1])

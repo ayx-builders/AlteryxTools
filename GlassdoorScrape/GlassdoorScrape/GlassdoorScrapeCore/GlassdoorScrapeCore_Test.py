@@ -24,6 +24,7 @@ class MyTestCase(unittest.TestCase):
         result = Core.get_company_data("Alteryx", 1)
         self.assertEqual(10, len(result.reviews))
         self.assertEqual('E351220', result.GlassdoorId)
+        self.assertEqual(10, len(result.interviews))
 
 
 if __name__ == '__main__':

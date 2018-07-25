@@ -2,18 +2,6 @@ import GlassdoorScrapeCore.GlassdoorScrapUtilities as Ut
 from typing import List
 
 
-# BoxColor
-def __decode_box_color(html_string):
-    if html_string.find("yellow", 0) != -1:
-        return "Yellow"
-    elif html_string.find("green", 0) != -1:
-        return "Green"
-    elif html_string.find("red", 0) != -1:
-        return "Red"
-    return ""
-
-
-# Parses the HTML
 def parse_html(html_string) -> List[List[str]]:
     html_list = Ut.get_list_of_substrings(html_string, "<li class=' empReview",
                                           "</span></span></div></div></div></div></div></div></li>")
@@ -73,7 +61,7 @@ def parse_html(html_string) -> List[List[str]]:
 
         # Recommends
         _str = Ut.get_string_between(row, "<i class", "Recommends</span>", "", False)
-        _str = __decode_box_color(_str)
+        _str = Ut.decode_box_color(_str)
         row_list.append(_str)
 
         # Outlook
@@ -89,7 +77,7 @@ def parse_html(html_string) -> List[List[str]]:
 
         # CEO
         _str = Ut.get_string_between(row, "<i class", "CEO</span>", "", False)
-        _str = __decode_box_color(_str)
+        _str = Ut.decode_box_color(_str)
         row_list.append(_str)
 
         # Time Employed:

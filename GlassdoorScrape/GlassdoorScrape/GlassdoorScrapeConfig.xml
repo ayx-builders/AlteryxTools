@@ -8,6 +8,7 @@
     <OutputConnections>
       <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
       <Connection Name="Reviews" AllowMultiple="False" Optional="False" Type="Connection" Label="R"/>
+      <Connection Name="Interviews" AllowMultiple="False" Optional="False" Type="Connection" Label="I"/>
     </OutputConnections>
   </GuiSettings>
   <Properties>

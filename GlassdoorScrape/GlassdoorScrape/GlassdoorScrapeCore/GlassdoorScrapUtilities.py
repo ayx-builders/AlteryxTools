@@ -110,3 +110,14 @@ def strip_html(string_subject):
 def encode_url(string_to_encode):
     from urllib.parse import quote
     return quote(string_to_encode)
+
+
+# BoxColor
+def decode_box_color(html_string):
+    if html_string.find("yellow", 0) != -1:
+        return "Yellow"
+    elif html_string.find("green", 0) != -1:
+        return "Green"
+    elif html_string.find("red", 0) != -1:
+        return "Red"
+    return ""
