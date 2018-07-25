@@ -5,7 +5,7 @@ import os
 from typing import List
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-from GlassdoorScrapeCore.GlassdoorScrapeCore import ScrapeResults, getReviews
+from GlassdoorScrapeCore.GlassdoorScrapeCore import ScrapeResults, get_company_data
 
 
 class AyxPlugin:
@@ -110,9 +110,7 @@ class IncomingInterface:
                                          "Glassdoor Scrape " + str(self.parent.n_tool_id), '')
         ]
 
-
         self.ReviewsCreator: Sdk.RecordCreator = self.ReviewsRecord.construct_record_creator()
-
 
     def ii_init(self, record_info_in: Sdk.RecordInfo) -> bool:
         # Make sure the user provided a field to parse
@@ -154,13 +152,13 @@ class IncomingInterface:
     def ii_push_record(self, in_record: Sdk.RecordRef) -> bool:
         company: str = self.CompanyNamesField.get_as_string(in_record)
         # try:
-        result = getReviews(company, self.parent.maxPages)
+        result = get_company_data(company, self.parent.maxPages)
         # except:
         #    self.pushNullOutput(in_record)
         #    return False
 
-        self.pushOutput(result, in_record)
-        self.pushReviews(result)
+        self.push_output(result, in_record)
+        self.push_reviews(result)
         return True
 
     def ii_update_progress(self, d_percent: float):
@@ -176,19 +174,19 @@ class IncomingInterface:
         self.parent.Output.close()
         self.parent.Reviews.close()
 
-    def pushOutput(self, result: ScrapeResults, in_record: Sdk.RecordInfo):
+    def push_output(self, result: ScrapeResults, in_record: Sdk.RecordInfo):
         self.OutputCreator.reset()
         self.OutputCopier.copy(self.OutputCreator, in_record)
 
         self.GlassdoorIdField.set_from_string(self.OutputCreator, result.GlassdoorId)
         self.GlassdoorNameField.set_from_string(self.OutputCreator, result.GlassdoorName)
-        self.GlassdoorLinkField.set_from_string(self.OutputCreator, result.GlassdoorLink)
-        self.GlassdoorPagesField.set_from_int64(self.OutputCreator, result.GlassdoorPages)
+        self.GlassdoorLinkField.set_from_string(self.OutputCreator, result.GlassdoorReviewLink)
+        self.GlassdoorPagesField.set_from_int64(self.OutputCreator, result.GlassdoorReviewPages)
 
         output = self.OutputCreator.finalize_record()
         self.parent.Output.push_record(output)
 
-    def pushNullOutput(self, in_record: Sdk.RecordInfo):
+    def push_null_output(self, in_record: Sdk.RecordInfo):
         self.OutputCreator.reset()
         self.OutputCopier.copy(self.OutputCreator, in_record)
 
@@ -200,7 +198,7 @@ class IncomingInterface:
         output = self.OutputCreator.finalize_record()
         self.parent.Output.push_record(output)
 
-    def pushReviews(self, result: ScrapeResults):
+    def push_reviews(self, result: ScrapeResults):
         for review in result.reviews:
             self.ReviewsCreator.reset()
             self.ReviewFields[0].set_from_string(self.ReviewsCreator, result.GlassdoorId)
