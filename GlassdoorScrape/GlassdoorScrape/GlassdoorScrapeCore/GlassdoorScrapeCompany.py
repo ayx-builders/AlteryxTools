@@ -1,4 +1,4 @@
-import GlassdoorScrapeCore.GlassdoorScrapUtilities as Ut
+import GlassdoorScrapeCore.GlassdoorScrapeUtilities as Ut
 from typing import List
 import re
 import GlassdoorScrapeCore.GlassdoorScrapeReviews as Reviews
@@ -61,9 +61,9 @@ def search_company_name(company: str) -> NameSearchResults:
     company = Ut.encode_url(company)
     url = baseUrl + "/Reviews/company-reviews.htm?sc.keyword=" + company
     html_string = Ut.download_string(url)
-    returned_gd_globals = get_gd_globals(html_string)
+    gd_globals = get_gd_globals(html_string)
 
-    if re.search("'analyticsUrl'\s*:\s*\"/employerInfo", returned_gd_globals, re.MULTILINE) is not None:
+    if re.search("'analyticsUrl'\s*:\s*\"/employerInfo", gd_globals, re.MULTILINE) is not None:
         print("Employer info retrieved")
         return parse_company_overview(html_string)
     else:

@@ -1,4 +1,4 @@
-import GlassdoorScrapeCore.GlassdoorScrapUtilities as Ut
+import GlassdoorScrapeCore.GlassdoorScrapeUtilities as Ut
 from typing import List
 
 

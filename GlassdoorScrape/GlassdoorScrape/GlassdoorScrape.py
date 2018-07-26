@@ -1,11 +1,7 @@
 import AlteryxPythonSDK as Sdk
 import xml.etree.ElementTree as Et
-import sys
-import os
 from typing import List
-
-sys.path.append(os.path.dirname(os.path.realpath(__file__)))
-from GlassdoorScrapeCore.GlassdoorScrapeCore import ScrapeResults, get_company_data
+from GlassdoorScrapeCore.GlassdoorScrapeCompany import ScrapeResults, get_company_data
 
 
 class AyxPlugin:
