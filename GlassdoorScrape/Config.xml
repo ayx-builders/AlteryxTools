@@ -2,11 +2,11 @@
 <AlteryxJavaScriptPlugin>
   <Properties>
     <MetaInfo>
-      <Name>Glassdoor Company Review Scraper (BETA)</Name>
-      <Description>Grab reviews from Glassdoor</Description>
+      <Name>Glassdoor Company Scraper (BETA)</Name>
+      <Description>Grab reviews and interviews from Glassdoor</Description>
       <CategoryName>Laboratory</CategoryName>
       <SearchTags>python, sdk, input, python sdk, optional input</SearchTags>
-      <ToolVersion>1.0</ToolVersion>
+      <ToolVersion>1.10</ToolVersion>
       <Author>nick612hayden and tlarsendataguy</Author>
       <Company></Company>
       <Copyright>2018</Copyright>

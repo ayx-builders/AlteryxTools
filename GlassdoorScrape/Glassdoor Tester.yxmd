@@ -3,7 +3,7 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="54" y="150" />
+        <Position x="54" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -27,7 +27,7 @@
     </Node>
     <Node ToolID="5">
       <GuiSettings Plugin="GlassdoorScrape">
-        <Position x="150" y="150" />
+        <Position x="150" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
@@ -44,10 +44,24 @@
     </Node>
     <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="246" y="66" />
+        <Position x="246" y="54" />
       </GuiSettings>
       <Properties>
-        <Configuration />
+        <Configuration>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12704_5e04184695254a67a69900c5b3e124ca_\Engine_15056_64e8cc06c2b14edaa629aaa6b6a57bc7_.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
         <Annotation DisplayMode="0">
           <Name />
           <DefaultAnnotationText />
@@ -58,9 +72,22 @@
     </Node>
     <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="246" y="150" />
+        <Position x="246" y="138" />
       </GuiSettings>
       <Properties>
+        <Configuration>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12704_5e04184695254a67a69900c5b3e124ca_\Engine_15056_afbe84718c2f4daebd6a3d547adcfae6_.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints />
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
         <Annotation DisplayMode="0">
           <Name />
           <DefaultAnnotationText />
@@ -71,10 +98,24 @@
     </Node>
     <Node ToolID="8">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="246" y="234" />
+        <Position x="246" y="222" />
       </GuiSettings>
       <Properties>
-        <Configuration />
+        <Configuration>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12704_5e04184695254a67a69900c5b3e124ca_\Engine_15056_aff4e0cec9a14d23be1cae6ec7774117_.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
         <Annotation DisplayMode="0">
           <Name />
           <DefaultAnnotationText />
