@@ -3,17 +3,17 @@
   <Nodes>
     <Node ToolID="1">
       <GuiSettings Plugin="AlteryxBasePluginsGui.TextInput.TextInput">
-        <Position x="54" y="90" />
+        <Position x="54" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
           <NumRows value="1" />
           <Fields>
-            <Field name="Field1" />
+            <Field name="Search" />
           </Fields>
           <Data>
             <r>
-              <c>slalom</c>
+              <c>alteryx</c>
             </r>
           </Data>
         </Configuration>
@@ -25,13 +25,13 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxTextInput" />
     </Node>
-    <Node ToolID="2">
-      <GuiSettings Plugin="GlassdoorScrapeNewGui">
-        <Position x="150" y="90" />
+    <Node ToolID="5">
+      <GuiSettings Plugin="GlassdoorScrape">
+        <Position x="150" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <CompanyNames>Field1</CompanyNames>
+          <CompanyNames>Search</CompanyNames>
           <maxPages>1</maxPages>
         </Configuration>
         <Annotation DisplayMode="0">
@@ -40,15 +40,15 @@
           <Left value="False" />
         </Annotation>
       </Properties>
-      <EngineSettings EngineDll="Python" EngineDllEntryPoint="GlassdoorScrapeNewGui\GlassdoorScrapeALPHA.py" />
+      <EngineSettings EngineDll="Python" EngineDllEntryPoint="GlassdoorScrape\GlassdoorScrape.py" />
     </Node>
-    <Node ToolID="3">
+    <Node ToolID="6">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
         <Position x="246" y="54" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_11612_6c7fb341c48347b7a1c12b374e4a238b_\Engine_7696_15a9562503ec4ef6b9a6648a3022a090_.yxdb</TempFile>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12704_5e04184695254a67a69900c5b3e124ca_\Engine_15056_64e8cc06c2b14edaa629aaa6b6a57bc7_.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -70,13 +70,39 @@
       </Properties>
       <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
     </Node>
-    <Node ToolID="4">
+    <Node ToolID="7">
       <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
-        <Position x="246" y="126" />
+        <Position x="246" y="138" />
       </GuiSettings>
       <Properties>
         <Configuration>
-          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_11612_6c7fb341c48347b7a1c12b374e4a238b_\Engine_7696_6a73f6b8ed044bf5b656cf8b3466943c_.yxdb</TempFile>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12704_5e04184695254a67a69900c5b3e124ca_\Engine_15056_afbe84718c2f4daebd6a3d547adcfae6_.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints />
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="8">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="246" y="222" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\THOMAS~1.COM\AppData\Local\Temp\Engine_12704_5e04184695254a67a69900c5b3e124ca_\Engine_15056_aff4e0cec9a14d23be1cae6ec7774117_.yxdb</TempFile>
           <TempFileDataProfiling />
           <Layout>
             <ViewMode>Single</ViewMode>
@@ -102,15 +128,19 @@
   <Connections>
     <Connection>
       <Origin ToolID="1" Connection="Output" />
-      <Destination ToolID="2" Connection="Input" />
+      <Destination ToolID="5" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="2" Connection="Output" />
-      <Destination ToolID="3" Connection="Input" />
+      <Origin ToolID="5" Connection="Output" />
+      <Destination ToolID="6" Connection="Input" />
     </Connection>
     <Connection>
-      <Origin ToolID="2" Connection="Reviews" />
-      <Destination ToolID="4" Connection="Input" />
+      <Origin ToolID="5" Connection="Reviews" />
+      <Destination ToolID="7" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="5" Connection="Interviews" />
+      <Destination ToolID="8" Connection="Input" />
     </Connection>
   </Connections>
   <Properties>

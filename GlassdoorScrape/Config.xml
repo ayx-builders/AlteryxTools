@@ -1,22 +1,12 @@
 <?xml version="1.0"?>
 <AlteryxJavaScriptPlugin>
-  <EngineSettings EngineDll="Python" EngineDllEntryPoint="GlassdoorScrapeBETA.py" SDKVersion="10.1" />
-  <GuiSettings Html="GlassdoorScrapeBETA.html" Icon="GlassdoorLogo.png" Help="https://help.alteryx.com/developer/current/index.htm#Python/Examples.htm" SDKVersion="10.1">
-    <InputConnections>
-      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
-    </InputConnections>
-    <OutputConnections>
-      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
-      <Connection Name="Reviews" AllowMultiple="False" Optional="False" Type="Connection" Label="R"/>
-    </OutputConnections>
-  </GuiSettings>
   <Properties>
     <MetaInfo>
-      <Name>Glassdoor Company Review Scraper (BETA)</Name>
-      <Description>Return company review data from Glassdoor</Description>
+      <Name>Glassdoor Company Scraper (BETA)</Name>
+      <Description>Grab reviews and interviews from Glassdoor</Description>
       <CategoryName>Laboratory</CategoryName>
       <SearchTags>python, sdk, input, python sdk, optional input</SearchTags>
-      <ToolVersion>1.0</ToolVersion>
+      <ToolVersion>1.10</ToolVersion>
       <Author>nick612hayden and tlarsendataguy</Author>
       <Company></Company>
       <Copyright>2018</Copyright>
