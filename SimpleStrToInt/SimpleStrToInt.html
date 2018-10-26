@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>Convert String to Int</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("Convert String to Int")</legend>
+      <div class=''>
+        <div>
+          <label>XMSG("Text only contains numeric characters.")</label>
+          <ayx data-ui-props="{type: 'CheckBox'}" data-item-props="{dataName: 'OnlyNumeric', dataType: 'SimpleBool' }"></ayx>
+        </div>
+        <div>
+          <label>XMSG("What will be the name of the new field?")</label>
+          <ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'IntFieldName' }"></ayx>
+        </div>
+        <div>
+          <label>XMSG("Select the field(s) which will be used to generate the int value.")</label>
+          <ayx data-ui-props='{type:"ListBox", widgetId:"FieldList", heightAuto: true}' data-item-props="{dataName: 'Fields', dataType: 'FieldSelectorMulti', fieldType: 'string'}"></ayx>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
+  <style>
+    .blueTitle {
+      background-color: #e5e5e5;
+    }
+  </style>
+</body>
+</html>

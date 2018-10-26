@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAlteryxTools", "CustomAlteryxTools.csproj", "{44182C44-3979-48EE-9D25-E0D86E48F4EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAlteryxTools_Tests", "CustomAlteryxTools_Tests\CustomAlteryxTools_Tests.csproj", "{ECEF4E46-AC8D-4166-AC39-6E04880374A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{44182C44-3979-48EE-9D25-E0D86E48F4EB}.Release|x64.Build.0 = Release|x64
 		{44182C44-3979-48EE-9D25-E0D86E48F4EB}.Release|x86.ActiveCfg = Release|Any CPU
 		{44182C44-3979-48EE-9D25-E0D86E48F4EB}.Release|x86.Build.0 = Release|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Debug|x64.Build.0 = Debug|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Debug|x86.Build.0 = Debug|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Release|x64.ActiveCfg = Release|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Release|x64.Build.0 = Release|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Release|x86.ActiveCfg = Release|Any CPU
+		{ECEF4E46-AC8D-4166-AC39-6E04880374A2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
