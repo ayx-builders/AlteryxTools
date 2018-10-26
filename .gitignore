@@ -64,6 +64,7 @@ target/
 *.yxi
 *.zip
 *.bak
+*.yxdb
 
 # Python virtual environments
 Scripts/
