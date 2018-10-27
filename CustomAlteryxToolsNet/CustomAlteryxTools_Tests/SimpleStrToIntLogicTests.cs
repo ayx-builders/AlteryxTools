@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using CustomAlteryxTools;
 
 namespace CustomAlteryxTools_Tests
@@ -54,6 +53,13 @@ namespace CustomAlteryxTools_Tests
         {
             var result = SimpleStrToIntLogic.Convert("ABC");
             Assert.AreEqual(long.MinValue + 23016, result.Value);
+        }
+
+        [Test]
+        public void ConvertA1()
+        {
+            var result = SimpleStrToIntLogic.Convert("A1");
+            Assert.AreEqual(long.MinValue + 561, result.Value);
         }
 
         [Test]

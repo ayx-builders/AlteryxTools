@@ -49,11 +49,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlteryxGuiToolkit">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxGuiToolkit.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AlteryxRecordInfo.Net">
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Alteryx\bin\AlteryxRecordInfo.Net.dll</HintPath>
       <Private>False</Private>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SimpleStrToInt.cs" />
-    <Compile Include="SimpleStrToIntLogic.cs" />
     <Compile Include="SsasImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -86,4 +85,5 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="Logic\Logic.projitems" Label="Shared" />
 </Project>

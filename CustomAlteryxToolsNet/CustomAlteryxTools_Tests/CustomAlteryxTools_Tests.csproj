@@ -45,13 +45,8 @@
     <Compile Include="SimpleStrToIntLogicTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CustomAlteryxTools.csproj">
-      <Project>{44182c44-3979-48ee-9d25-e0d86e48f4eb}</Project>
-      <Name>CustomAlteryxTools</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\Logic\Logic.projitems" Label="Shared" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
