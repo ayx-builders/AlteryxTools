@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAlteryxTools", "CustomAlteryxTools.csproj", "{44182C44-3979-48EE-9D25-E0D86E48F4EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAlteryxTools", "CustomAlteryxTools\CustomAlteryxTools.csproj", "{44182C44-3979-48EE-9D25-E0D86E48F4EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomAlteryxTools_Tests", "CustomAlteryxTools_Tests\CustomAlteryxTools_Tests.csproj", "{ECEF4E46-AC8D-4166-AC39-6E04880374A2}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Logic", "Logic\Logic.shproj", "{1295BA41-F2FA-406B-81C4-7ED5DE850471}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
