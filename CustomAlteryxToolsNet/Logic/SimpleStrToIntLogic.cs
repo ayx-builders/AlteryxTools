@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CustomAlteryxTools
 {
+    public delegate long? Converter(string input);
+
     public static class SimpleStrToIntLogic
     {
         public static long? ConvertNumericOnly(string input)
@@ -34,18 +37,16 @@ namespace CustomAlteryxTools
             return long.MinValue + add1 + add2;
         }
 
-        public static ulong LongPow(long value, int pow)
+        public static ulong LongPow(ulong value, int pow)
         {
-            var returnValue = (ulong) value;
-            
             if (pow == 0) return 1;
-            var multiplier = returnValue;
+            var multiplier = value;
             for (var i = 1; i < pow; i++)
             {
-                returnValue = returnValue * multiplier;
+                value = value * multiplier;
             }
 
-            return returnValue;
+            return value;
         }
         
         private static Dictionary<char, ulong> _map = new Dictionary<char, ulong>
