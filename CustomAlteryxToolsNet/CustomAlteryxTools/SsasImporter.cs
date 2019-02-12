@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
 using System.Xml;
 using Microsoft.AnalysisServices.AdomdClient;
 
@@ -44,22 +43,23 @@ namespace CustomAlteryxTools
         public bool PI_PushAllRecords(long nRecordLimit)
         {
             if (nRecordLimit < 0) nRecordLimit = long.MaxValue;
-            bool success = false;
-            string connStr = $"Data Source={dataSource};Catalog={catalog}";
+            var success = false;
+            var connStr = $"Data Source={dataSource};Catalog={catalog}";
 
             var conn = new AdomdConnection(connStr);
 
             try
             {
+                AdomdDataReader reader;
                 conn.Open();
                 engine.OutputMessage(toolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, "Connected to server, processing the query...");
                 engine.OutputToolProgress(toolId, 0.05);
+                output.UpdateProgress(0.05);
 
                 var command = new AdomdCommand(mdx, conn);
-                AdomdDataReader reader;
                 if (nRecordLimit == 0)
                 {
-                    reader = command.ExecuteReader(System.Data.CommandBehavior.SchemaOnly);
+                    reader = command.ExecuteReader(CommandBehavior.SchemaOnly);
                 }
                 else
                 {
@@ -68,7 +68,8 @@ namespace CustomAlteryxTools
 
                 engine.OutputMessage(toolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, "Query finished executing, retrieving schema...");
                 engine.OutputToolProgress(toolId, 0.50);
-
+                output.UpdateProgress(0.50);
+                
                 var fields = reader.GetSchemaTable();
                 var outputInfo = new AlteryxRecordInfoNet.RecordInfo();
 
@@ -82,6 +83,7 @@ namespace CustomAlteryxTools
                 output.Init(outputInfo, "Output", null, config);
                 engine.OutputMessage(toolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, "Prepared output schema, retrieving data...");
                 engine.OutputToolProgress(toolId, 0.55);
+                output.UpdateProgress(0.55);
 
                 var record = outputInfo.CreateRecord();
                 int totalRead = 0;
@@ -106,10 +108,13 @@ namespace CustomAlteryxTools
 
                     totalRead++;
                 }
+                
+                reader.Close();
+                reader.Dispose();
 
-                engine.OutputMessage(toolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Info, $"Data retrieval completed.  {totalRead} records output.");
+                engine.OutputMessage(toolId, AlteryxRecordInfoNet.MessageStatus.STATUS_Complete, $"Data retrieval completed.  {totalRead} records output.");
                 engine.OutputToolProgress(toolId, 1.00);
-
+                output.UpdateProgress(1.00);
                 success = true;
             }
             catch (Exception ex)
@@ -123,6 +128,7 @@ namespace CustomAlteryxTools
                 conn.Dispose();
             }
 
+            output.Close();
             return success;
         }
 

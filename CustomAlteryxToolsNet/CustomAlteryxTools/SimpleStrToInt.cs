@@ -46,7 +46,7 @@ namespace CustomAlteryxTools
 
         public bool ShowDebugMessages()
         {
-            return true;
+            return false;
         }
 
         internal void SendError(string message)
@@ -62,7 +62,14 @@ namespace CustomAlteryxTools
 
     public class SimpleStrToIntIncoming : IIncomingConnectionInterface
     {
-        public SimpleStrToIntIncoming(SimpleStrToInt parent) => _parent = parent;
+        public SimpleStrToIntIncoming(SimpleStrToInt parent)
+        {
+            _parent = parent;
+            if (_parent.OnlyNumeric)
+                converter = SimpleStrToIntLogic.ConvertNumericOnly;
+            else
+                converter = SimpleStrToIntLogic.Convert;
+        }
 
         private readonly SimpleStrToInt _parent;
         private RecordCopier _copier;
@@ -72,6 +79,8 @@ namespace CustomAlteryxTools
         private FieldBase _newField;
         private Record _record;
         private int errors = 0;
+        private readonly Converter converter;
+        private StringBuilder builder = new StringBuilder(20);
         
         public void II_Close()
         {
@@ -112,7 +121,6 @@ namespace CustomAlteryxTools
         public bool II_PushRecord(RecordData pRecord)
         {
             _record.Reset();
-            var builder = new StringBuilder();
             foreach (var field in _fields)
             {
                 if (!field.IsNull(pRecord))
@@ -122,11 +130,7 @@ namespace CustomAlteryxTools
             }
             
             _copier.Copy(_record, pRecord);
-            long? convertedInt;
-            if (_parent.OnlyNumeric)
-                convertedInt = SimpleStrToIntLogic.ConvertNumericOnly(builder.ToString());
-            else
-                convertedInt = SimpleStrToIntLogic.Convert(builder.ToString());
+            long? convertedInt = converter(builder.ToString());
             
             if (convertedInt.HasValue)
                 _newField.SetFromInt64(_record, convertedInt.Value);
@@ -137,6 +141,7 @@ namespace CustomAlteryxTools
             }
 
             _parent.Output.PushRecord(_record.GetRecord());
+            builder.Clear();
             return true;
         }
 
@@ -147,7 +152,7 @@ namespace CustomAlteryxTools
 
         public bool ShowDebugMessages()
         {
-            return true;
+            return false;
         }
     }
 }
