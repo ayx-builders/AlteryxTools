@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>JiraPy</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("JiraPy, a Python connector for Jira")</legend>
+      <div class=''>
+        <label>XMSG("Server:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'Server', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("Username:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'Username', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("Password:")</label>
+		<ayx data-ui-props="{type: 'TextBox', password: true}" data-item-props="{dataName: 'Password', dataType: 'SimpleString', password: true, encryptionMode: 'user'}"></ayx>
+        <label>XMSG("Objects to download:")</label>
+		<ayx data-ui-props="{type: 'DropDown', placeholder: 'Select object type'}" data-item-props="{dataName: 'ObjectType', dataType: 'StringSelector', optionList: ['Projects','Issues','Issue Sprints','Issue Components','Comments']}"></ayx>
+        <label>XMSG("JQL filter:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'Filter', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("Max issues (0 for all issues):")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'MaxIssues', dataType: 'SimpleInt'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+</body>
+</html>

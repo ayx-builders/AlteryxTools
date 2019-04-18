@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="JiraPy.py" SDKVersion="10.1" />
+  <GuiSettings Html="JiraPy.html" Icon="JiraPyLogo.png" Help="https://help.alteryx.com/developer/current/index.htm#Python/Examples.htm" SDKVersion="10.1">
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>JiraPy</Name>
+      <Description>A custom Python tool for importing Jira data</Description>
+      <CategoryName>Laboratory</CategoryName>
+      <SearchTags>python, sdk, input, jira</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>tlarsendataguy</Author>
+      <Company></Company>
+      <Copyright>2019</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
