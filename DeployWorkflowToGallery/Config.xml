@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="DeployWorkflowToGallery.py" SDKVersion="10.1" />
+  <GuiSettings Html="DeployWorkflowToGallery.html" Icon="" Help="https://help.alteryx.com/developer/current/index.htm#Python/Examples.htm" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </InputConnections>
+    <OutputConnections>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>Deploy Workflows</Name>
+      <Description>Export workflows to the specified gallery</Description>
+      <CategoryName>Laboratory</CategoryName>
+      <SearchTags>python, sdk, gallery, api</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>tlarsendataguy</Author>
+      <Company></Company>
+      <Copyright>2019</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
