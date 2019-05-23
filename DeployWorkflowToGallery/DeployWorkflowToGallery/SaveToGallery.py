@@ -39,8 +39,6 @@ def save_to_gallery(base_url: str, api_key: str, api_secret: str, filepath: str,
         package = CollectPackage.collect_package(filepath)
         zip_bytes = CollectPackage.zip_package(package, filename.lower())
         file = io.BytesIO(zip_bytes)
-        with open("C:\\Users\\Thomas.J.Larsen@us.abb.com\\Documents\\TestNoMacro.zip", "wb") as file2:
-            file2.write(zip_bytes)
     else:
         return Response(600, "File is not a supported format.  Must be yxzp, yxmd, yxmc, or yxwz")
 
