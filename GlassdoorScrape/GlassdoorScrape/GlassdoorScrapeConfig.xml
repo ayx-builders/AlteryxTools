@@ -13,12 +13,12 @@
   </GuiSettings>
   <Properties>
     <MetaInfo>
-      <Name>Glassdoor Company Scraper (BETA)</Name>
+      <Name>Glassdoor Company Scraper</Name>
       <Description>Grab reviews and interviews from Glassdoor</Description>
       <CategoryName>Laboratory</CategoryName>
       <SearchTags>python, sdk, input, python sdk, optional input</SearchTags>
-      <ToolVersion>1.10</ToolVersion>
-      <Author>nick612hayden and tlarsendataguy</Author>
+      <ToolVersion>1.11</ToolVersion>
+      <Author>nick612haylund and tlarsendataguy</Author>
       <Company></Company>
       <Copyright>2018</Copyright>
     </MetaInfo>

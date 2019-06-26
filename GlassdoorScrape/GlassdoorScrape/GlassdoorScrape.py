@@ -204,7 +204,7 @@ class IncomingInterface:
         return [
             record.add_field("Glassdoor ID", Sdk.FieldType.v_wstring, 10, 0, source, ''),
             record.add_field("Company Name", Sdk.FieldType.v_wstring, 100, 0, source, ''),
-            record.add_field("Review Date", Sdk.FieldType.v_wstring, 20, 0, source, ''),
+            record.add_field("Review Date", Sdk.FieldType.v_wstring, 50, 0, source, ''),
             record.add_field("Helpful (count)", Sdk.FieldType.v_wstring, 10, 0, source, ''),
             record.add_field("Title (of the review)", Sdk.FieldType.v_wstring, 256, 0, source, ''),
             record.add_field("Rating (out of 5)", Sdk.FieldType.v_wstring, 3, 0, source, ''),
@@ -225,7 +225,7 @@ class IncomingInterface:
         return [
             record.add_field("Glassdoor ID", Sdk.FieldType.v_wstring, 10, 0, source, ''),
             record.add_field("Company Name", Sdk.FieldType.v_wstring, 100, 0, source, ''),
-            record.add_field("Date", Sdk.FieldType.v_wstring, 20, 0, source, ''),
+            record.add_field("Date", Sdk.FieldType.v_wstring, 50, 0, source, ''),
             record.add_field("Title (Analyst Interview)", Sdk.FieldType.v_wstring, 256, 0, source, ''),
             record.add_field("Experience", Sdk.FieldType.v_wstring, 20, 0, source, ''),
             record.add_field("Offer", Sdk.FieldType.v_wstring, 20, 0, source, ''),

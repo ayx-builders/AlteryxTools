@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>Deploy Workflows</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("Deploy Workflows")</legend>
+      <div class=''>
+        <label>XMSG("Which field contains the workflow paths?:")</label>
+		<ayx data-ui-props="{type: 'DropDown'}" data-item-props="{dataName: 'FileNameField', dataType: 'FieldSelector', fieldType: 'String', anchorIndex:'0', connectionIndex:'0'}"></ayx>
+        <label>XMSG("Which field contains the names to use in the Gallery?:")</label>
+		<ayx data-ui-props="{type: 'DropDown'}" data-item-props="{dataName: 'NameField', dataType: 'FieldSelector', fieldType: 'String', anchorIndex:'0', connectionIndex:'0'}"></ayx>
+        <label>XMSG("Gallery URL:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'GalleryUrl', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("API Key:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'ApiKey', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("API Secret:")</label>
+		<ayx data-ui-props="{type: 'TextBox', password: true}" data-item-props="{dataName: 'ApiSecret', dataType: 'SimpleString', password: true, encryptionMode: 'machine'}"></ayx>
+        <label>XMSG("Gallery owner e-mail address:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'Owner', dataType: 'SimpleString'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+
+  <style>
+    .blueTitle {
+      background-color: #e5e5e5;
+    }
+  </style>
+</body>
+</html>

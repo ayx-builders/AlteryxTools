@@ -1,10 +1,9 @@
 import GlassdoorScrapeCore.GlassdoorScrapeUtilities as Ut
 from typing import List
-
+import re
 
 def parse_html(html_string) -> List[List[str]]:
-    html_list = Ut.get_list_of_substrings(html_string, "<li class=' empReview",
-                                          "</span></span></div></div></div></div></div></div></li>")
+    html_list = Ut.get_list_of_substrings(html_string, "<div class=\"hreview\">", "empReview")
     print("Reviews to parse: " + str(len(html_list)))
     # Each will have a list appended
     output_listing: List[List[str]] = []
@@ -13,21 +12,19 @@ def parse_html(html_string) -> List[List[str]]:
         # Parse the current listing
         row_list: List[str] = []
         # Company Name
-        _str = Ut.get_string_between(html_string, "</script><title>", "Reviews |", "")
+        _str = Ut.get_string_between(html_string, "'name':\"", '"', "")
         row_list.append(_str)
 
         # ReviewDate
-        _str = Ut.get_string_between(row, "datetime=\"", "\">", "")
+        _str = Ut.get_string_between(row, "dateTime=\"", "\">", "")
         row_list.append(_str)
         # Helpful count
-        _str = Ut.get_string_between(row, "<span class=\"helpfulCount subtle\">", "</span>", "")
-        _str = _str.replace("Helpful", "")
-        _str = _str.replace("(", "")
-        _str = _str.replace(")", "")
-        _str = _str.strip()
+        _str = Ut.get_string_between(row, "helpfulReviews", "</div>", "")
+        _str = Ut.get_string_between(_str, "(", ")", "")
+        _str = re.sub("[^0-9]", "", _str)
         row_list.append(_str)
         # Title (of the review)
-        _str = Ut.get_string_between(row, "<span class=\"summary \">", "</span>", "")
+        _str = Ut.get_string_between(row, "<span class=\"summary\">", "</span>", "")
         _str = _str.strip("\"")
         row_list.append(_str)
         # Rating of Review
@@ -35,7 +32,7 @@ def parse_html(html_string) -> List[List[str]]:
         _str = _str.strip("\"")
         row_list.append(_str)
         # Current Employee / Past
-        _str = Ut.get_string_between(row, "<span class='authorJobTitle middle reviewer'>", "</span>", "")
+        _str = Ut.get_string_between(row, "<span class=\"authorJobTitle middle reviewer\">", "</span>", "")
         _str = _str.strip()
         _current = _str
         _current = Ut.get_string_between((">" + _current), ">", "Employee", "")
@@ -47,7 +44,7 @@ def parse_html(html_string) -> List[List[str]]:
         row_list.append(_current)
 
         # Employee type
-        _str = Ut.get_string_between(row, "<p class=' tightBot mainText'>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"mainText mb-0\">", "</p>", "")
         if _str.find("full", 0) != -1:
             row_list.append("Full time")
         elif _str.find("half", 0) != -1:
@@ -56,7 +53,7 @@ def parse_html(html_string) -> List[List[str]]:
             row_list.append(_str)
 
         # Location
-        _str = Ut.get_string_between(row, "<span class='authorLocation middle'>", "></span>", "")
+        _str = Ut.get_string_between(row, "<span class=\"authorLocation\">", "></span>", "")
         row_list.append(_str)
 
         # Recommends
@@ -81,7 +78,7 @@ def parse_html(html_string) -> List[List[str]]:
         row_list.append(_str)
 
         # Time Employed:
-        _str = Ut.get_string_between(row, "<p class=' tightBot mainText'>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"mainText mb-0\">", "</p>", "")
         if _str.find("More than a year", 0) != -1:
             row_list.append("More than a year")
         elif _str.find("Less than a year", 0) != -1:
@@ -90,15 +87,15 @@ def parse_html(html_string) -> List[List[str]]:
             row_list.append(_str)
 
         # Pros
-        _str = Ut.get_string_between(row, "<p class=' pros mainText truncateThis wrapToggleStr'>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"strong\">Pros</p><p>", "</p>", "")
         row_list.append(_str)
 
         # Cons
-        _str = Ut.get_string_between(row, "<p class=' cons mainText truncateThis wrapToggleStr'>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"strong\">Cons</p><p>", "</p>", "")
         row_list.append(_str)
 
         # Advice to management
-        _str = Ut.get_string_between(row, "<p class=' adviceMgmt mainText truncateThis wrapToggleStr'>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"strong\">Advice to Management</p><p>", "</p>", "")
         row_list.append(_str)
 
         # append the list
