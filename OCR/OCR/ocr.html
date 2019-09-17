@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html style="padding:20px">
+<head>
+  <meta charset="utf-8">
+  <title>OCR</title>
+
+  <script type="text/javascript">
+    document.write('<link rel="import" href="' + window.Alteryx.LibDir + '2/lib/includes.html">');
+  </script>
+</head>
+<body>
+  <form>
+    <fieldset>
+      <legend class='blueTitle'>XMSG("OCR")</legend>
+      <div class=''>
+        <label>XMSG("Endpoint:")</label>
+		<ayx data-ui-props="{type: 'TextBox'}" data-item-props="{dataName: 'Endpoint', dataType: 'SimpleString'}"></ayx>
+        <label>XMSG("Subscription Key:")</label>
+		<ayx data-ui-props="{type: 'TextBox', password: true}" data-item-props="{dataName: 'Key', dataType: 'SimpleString', password: true, encryptionMode: 'user'}"></ayx>
+        <label>XMSG("Incoming field with files to run OCR on:")</label>
+		<ayx data-ui-props="{type: 'DropDown'}" data-item-props="{dataName: 'UploadFileField', dataType: 'FieldSelector', fieldType: 'String', anchorIndex:'0', connectionIndex:'0'}"></ayx>
+      </div>
+    </fieldset>
+  </form>
+</body>
+</html>

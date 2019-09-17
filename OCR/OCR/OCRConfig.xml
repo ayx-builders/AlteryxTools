@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="Python" EngineDllEntryPoint="ocr.py" SDKVersion="10.1" />
+  <GuiSettings Html="ocr.html" Icon="ocr.png" Help="https://help.alteryx.com/developer/current/index.htm#Python/Examples.htm" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>OCR</Name>
+      <Description>A custom Python tool for sending images and PDFs to Microsoft Cognitive Services OCR analysis</Description>
+      <CategoryName>Laboratory</CategoryName>
+      <SearchTags>python, sdk, OCR</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>tlarsendataguy</Author>
+      <Company></Company>
+      <Copyright>2019</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
