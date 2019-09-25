@@ -91,7 +91,7 @@ class IncomingInterface:
         headers = {"Content-Type": "application/octet-stream", "Ocp-Apim-Subscription-Key": key}
         batch_response = requests.post(self.batch_read_url, data=upload_bytes, headers=headers)
         if batch_response.status_code != 202:
-            self.parent.display_error_msg(batch_response.text)
+            self.parent.display_error_msg("Error sending file: " + batch_response.text)
             return False
 
         time.sleep(5)
@@ -102,7 +102,7 @@ class IncomingInterface:
         while still_running:
             get_read_response = requests.get(operation_location, headers=headers)
             if get_read_response.status_code != 200:
-                self.parent.display_error_msg(get_read_response.text)
+                self.parent.display_error_msg("Error retrieving results: " + get_read_response.text)
                 return False
             get_read_json = json.loads(get_read_response.content)
             if get_read_json['status'] == 'Failed':

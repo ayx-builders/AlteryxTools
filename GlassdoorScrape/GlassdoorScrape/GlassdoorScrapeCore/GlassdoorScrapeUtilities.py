@@ -14,8 +14,13 @@ def scrape_list(base_url: str, parse, max_pages: int) -> (int, List[List[str]]):
         current_url = base_url.replace("{page}", str(pages))
 
         html_string = download_string(current_url)
+        
         if html_string is not None:
-            parsed_items = parse(html_string)
+            try:
+                parsed_items = parse(html_string)
+            except:
+                break
+
             for item in parsed_items:
                 items.append(item)
 
