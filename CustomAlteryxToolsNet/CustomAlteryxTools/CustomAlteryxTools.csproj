@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecimalToNumber.cs" />
     <Compile Include="SimpleStrToInt.cs" />
     <Compile Include="SsasImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
