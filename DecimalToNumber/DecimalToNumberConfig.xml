@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<AlteryxJavaScriptPlugin>
+  <EngineSettings EngineDll="CustomAlteryxTools.dll" EngineDllEntryPoint=".Net:CustomAlteryxTools.DecimalToNumber" SDKVersion="10.1" />
+  <GuiSettings Html="DecimalToNumber.html" Icon="DecimalToNumber.png" Help="https://help.alteryx.com/developer/current/index.htm#Python/Examples.htm" SDKVersion="10.1">
+    <InputConnections>
+      <Connection Name="Input" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </InputConnections>
+    <OutputConnections>
+      <Connection Name="Output" AllowMultiple="False" Optional="False" Type="Connection" Label=""/>
+    </OutputConnections>
+  </GuiSettings>
+  <Properties>
+    <MetaInfo>
+      <Name>Fixed Decimal to Number</Name>
+      <Description>Converts fixed decimal to integers when the scale is 0 and doubles when the scale is >0</Description>
+      <CategoryName>Preparation</CategoryName>
+      <SearchTags>C#, sdk, conversion</SearchTags>
+      <ToolVersion>1.00</ToolVersion>
+      <Author>tlarsendataguy</Author>
+      <Company></Company>
+      <Copyright>2020</Copyright>
+    </MetaInfo>
+  </Properties>
+</AlteryxJavaScriptPlugin>
