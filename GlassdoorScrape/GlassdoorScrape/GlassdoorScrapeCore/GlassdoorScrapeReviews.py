@@ -24,15 +24,15 @@ def parse_html(html_string) -> List[List[str]]:
         _str = re.sub("[^0-9]", "", _str)
         row_list.append(_str)
         # Title (of the review)
-        _str = Ut.get_string_between(row, "<span class=\"summary\">", "</span>", "")
+        _str = Ut.get_string_between(row, "class=\"reviewLink\">", "</a>", "")
         _str = _str.strip("\"")
         row_list.append(_str)
         # Rating of Review
-        _str = Ut.get_string_between(row, "<span class=\"rating\"><span class=\"value-title\" title=\"", "></span>", "")
+        _str = Ut.get_string_between(row, "<div class=\"v2__EIReviewsRatingsStylesV2__ratingNum v2__EIReviewsRatingsStylesV2__small\">", "</div>", "")
         _str = _str.strip("\"")
         row_list.append(_str)
         # Current Employee / Past
-        _str = Ut.get_string_between(row, "<span class=\"authorJobTitle middle reviewer\">", "</span>", "")
+        _str = Ut.get_string_between(row, "<span class=\"authorJobTitle middle\">", "</span>", "")
         _str = _str.strip()
         _current = _str
         _current = Ut.get_string_between((">" + _current), ">", "Employee", "")
@@ -87,15 +87,15 @@ def parse_html(html_string) -> List[List[str]]:
             row_list.append(_str)
 
         # Pros
-        _str = Ut.get_string_between(row, "<p class=\"strong\">Pros</p><p>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"strong mb-0 mt-xsm\">Pros</p><p class=\"mt-0 mb-xsm v2__EIReviewDetailsV2__bodyColor v2__EIReviewDetailsV2__lineHeightLarge v2__EIReviewDetailsV2__isExpanded \">", "</p>", "")
         row_list.append(_str)
 
         # Cons
-        _str = Ut.get_string_between(row, "<p class=\"strong\">Cons</p><p>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"strong mb-0 mt-xsm\">Cons</p><p class=\"mt-0 mb-xsm v2__EIReviewDetailsV2__bodyColor v2__EIReviewDetailsV2__lineHeightLarge v2__EIReviewDetailsV2__isExpanded \">", "</p>", "")
         row_list.append(_str)
 
         # Advice to management
-        _str = Ut.get_string_between(row, "<p class=\"strong\">Advice to Management</p><p>", "</p>", "")
+        _str = Ut.get_string_between(row, "<p class=\"strong mb-0 mt-xsm\">Advice to Management</p><p class=\"mt-0 mb-xsm v2__EIReviewDetailsV2__bodyColor v2__EIReviewDetailsV2__lineHeightLarge v2__EIReviewDetailsV2__isExpanded \">", "</p>", "")
         row_list.append(_str)
 
         # append the list
